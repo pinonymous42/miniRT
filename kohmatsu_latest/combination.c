@@ -144,6 +144,22 @@ int	rgb_to_int(int r, int g, int b)//rgbを16進数のやつに変化(R, G, B) =
 	return ((int)(r * pow(256, 2) + g * pow(256, 1) + b));
 }
 
+t_fcolor	add_color(t_fcolor c1, t_fcolor c2, double multi)
+{
+	t_fcolor	ret;
+
+	ret.red = c1.red + c2.red * multi;
+	if (ret.red > 255)
+		ret.red = 255;
+	ret.green = c1.green + c2.green * multi;
+	if (ret.green > 255)
+		ret.green = 255;
+	ret.blue = c1.blue + c2.blue * multi;
+	if (ret.blue > 255)
+		ret.blue = 255;
+	return (ret);
+}
+
 //material系
 t_material material_init(double kDif, double kSpe, double shininess)
 {
@@ -186,8 +202,10 @@ void	get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_object *object_list, double
 				{
 					if (t1 > 0)
 						t[i] = t1;
-					else
+					else if (t2 > 0)
 						t[i] = t2;
+					else
+						t[i] = 0;
 				}
 			}
 		}
@@ -237,37 +255,53 @@ int	get_min_index(double *t, int number)
 }
 
 void	my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_object *object_list, double *t,
-			int i, double light_power, double ambient_power, t_game *game, double x, double y)
+			int i, double light_power, double ambient_power, t_game *game, double x, double y, double epsilon,
+			t_fcolor light_color, t_fcolor ambient_color)
 {
-	//拡散反射
+	int	index;
+	double diffusion = 0;
+	double specular = 0;
+	t_fcolor new = rgb_init(0, 0, 0);
 	t_vec3 crosspoint_vec = vec3_add(camera_vec, vec3_mul(dir_vec, t[i]));//視線と物体の交点の位置ベクトル
 	t_vec3 incident_vec = vec3_normalize(vec3_sub(light_vec, crosspoint_vec));//入射ベクトル(入射って言ってるけど、向きに注意)
-	if (object_list[i].kind == SPHERE)
-		object_list[i].normal_vec = vec3_normalize(vec3_sub(crosspoint_vec, object_list[i].vec));//法線ベクトル
-	double dot_1;
-	if (vec3_dot(incident_vec, object_list[i].normal_vec) < 0)
-		dot_1 = 0;
-	else
-		dot_1 = vec3_dot(incident_vec, object_list[i].normal_vec);
-	double diffusion = dot_1 * light_power * object_list[i].material.kDif;
 
-	// 鏡面反射
-	t_vec3 reverse_dir_vec = vec3_normalize(vec3_mul(dir_vec, -1));//視線ベクトルの逆向き
-	t_vec3 regular_reflection_vec = vec3_normalize(vec3_sub(vec3_mul(vec3_mul(object_list[i].normal_vec, vec3_dot(incident_vec, object_list[i].normal_vec)), 2), incident_vec));
-	double dot_2;
-	if (vec3_dot(reverse_dir_vec, regular_reflection_vec) < 0)
-		dot_2 = 0;
-	else
-		dot_2 = vec3_dot(reverse_dir_vec, regular_reflection_vec);
-	double specular = pow(dot_2, object_list[i].material.shininess) * light_power * object_list[i].material.kSpe;
+	new = add_color(new, ambient_color, ambient_power);
 
-	int R = (int)(object_list[i].color.red * (diffusion + specular) + ambient_power);
-	int G = (int)(object_list[i].color.green * (diffusion + specular) + ambient_power);
-	int B = (int)(object_list[i].color.blue * (diffusion + specular) + ambient_power);
+	//影かどうか
+	double	distance = vec3_mag(vec3_sub(light_vec, crosspoint_vec)) - epsilon;
+	double	*tmp_t = malloc(sizeof(double) * NUMBER);
+	int		tmp_min_index;
+	for(index = 0; index < NUMBER; index++)
+		get_t_value(vec3_add(crosspoint_vec, vec3_mul(incident_vec, epsilon)), incident_vec, object_list, tmp_t, index);
+	tmp_min_index = get_min_index(tmp_t, NUMBER);
+	if (tmp_t[tmp_min_index] == 0 || distance < vec3_mag(vec3_add(crosspoint_vec, vec3_mul(incident_vec, epsilon + tmp_t[tmp_min_index]))))
+	{
+		//拡散反射
+		if (object_list[i].kind == SPHERE)
+			object_list[i].normal_vec = vec3_normalize(vec3_sub(crosspoint_vec, object_list[i].vec));//法線ベクトル
+		double dot_1;
+		if (vec3_dot(incident_vec, object_list[i].normal_vec) < 0)
+			dot_1 = 0;
+		else
+			dot_1 = vec3_dot(incident_vec, object_list[i].normal_vec);
+		diffusion = dot_1 * object_list[i].material.kDif;
+		new = add_color(new, object_list[i].color, diffusion);
+
+		// 鏡面反射
+		t_vec3 reverse_dir_vec = vec3_normalize(vec3_mul(dir_vec, -1));//視線ベクトルの逆向き
+		t_vec3 regular_reflection_vec = vec3_normalize(vec3_sub(vec3_mul(vec3_mul(object_list[i].normal_vec, vec3_dot(incident_vec, object_list[i].normal_vec)), 2), incident_vec));
+		double dot_2;
+		if (vec3_dot(reverse_dir_vec, regular_reflection_vec) < 0)
+			dot_2 = 0;
+		else
+			dot_2 = vec3_dot(reverse_dir_vec, regular_reflection_vec);
+		specular = pow(dot_2, object_list[i].material.shininess) * object_list[i].material.kSpe;
+	}
+
 	if (t[i] > 0)
-		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int(R, G, B));
+		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int(new.red, new.green, new.blue));
 	else
-		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int(100, 149, 237));//いい感じの青
+		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int(0, 0, 0));
 }
 
 int		main_loop(t_game *game)
@@ -275,7 +309,9 @@ int		main_loop(t_game *game)
 	double epsilon = 1.0 / 512; //微小距離
 	t_vec3 camera_vec = vec3_init(0, 0, -5); //視点位置のベクトル
 	double light_power = 1.0;
+	t_fcolor light_color = rgb_init(255, 255, 255);
 	double ambient_power = 0.1;
+	t_fcolor ambient_color = rgb_init(255, 255, 255);
 	t_vec3 light_vec = vec3_init(-5, -5, -5); //光源の位置ベクトル
 	t_object *object_list = (t_object *)malloc(sizeof(t_object) * NUMBER);
 	//1個目の球
@@ -288,7 +324,7 @@ int		main_loop(t_game *game)
 	//2個目の球
 	object_list[1].vec = vec3_init(0, 0, 10); //球の中心座標
 	object_list[1].diameter = 1.0; //球の直径
-	object_list[1].color = rgb_init(0, 255, 0);
+	object_list[1].color = rgb_init(255, 255, 0);
 	object_list[1].material = material_init(0.69, 0.3, 8);
 	object_list[1].kind = SPHERE;
 
@@ -309,7 +345,7 @@ int		main_loop(t_game *game)
 	//5個目の球
 	object_list[4].vec = vec3_init(3, 0, 25); //球の中心座標
 	object_list[4].diameter = 1.0; //球の直径
-	object_list[4].color = rgb_init(255, 255, 0);
+	object_list[4].color = rgb_init(0, 255, 0);
 	object_list[4].material = material_init(0.69, 0.3, 8);
 	object_list[4].kind = SPHERE;
 
@@ -333,7 +369,8 @@ int		main_loop(t_game *game)
 			for (i = 0; i < NUMBER; i++)
 				get_t_value(camera_vec, dir_vec, object_list, t, i);
 			min_index = get_min_index(t, NUMBER);
-			my_put_pixel(camera_vec, dir_vec, light_vec, object_list, t, min_index, light_power, ambient_power, game, x, y);
+			my_put_pixel(camera_vec, dir_vec, light_vec, object_list, t, min_index, light_power,
+				ambient_power, game, x, y, epsilon, light_color, ambient_color);
 			free(t);
 		}
 	}
