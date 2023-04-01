@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 16:01:21 by asanotomoki       #+#    #+#             */
-/*   Updated: 2023/04/01 14:45:20 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/01 18:14:35 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void init_rt(t_rt *rt)
 {
 	rt->screen_width = 1000;
 	rt->screen_height = 800;
-	rt->cameras = NULL;
+	rt->camera = NULL;
 	rt->objects = NULL;
-	rt->lights = NULL;
+	rt->light = NULL;
 }
 
 int main(int argc, char *argv[])
@@ -35,7 +35,8 @@ int main(int argc, char *argv[])
 		return (1);
 	}
 	init_rt(&rt);
-	create_map(argv[1], &rt);
+	if (create_map(argv[1], &rt))
+		exit (1);
 	put_rt(&rt);
 	return (0);
 }
