@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 04:02:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/01 17:14:53 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/01 18:14:44 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct    s_vec3 {
 //A Ambient lightning
 typedef struct s_ambient
 {
-	int ratio;
+	double ratio;
 	t_color color;
 } t_ambient;
 
@@ -95,10 +95,10 @@ typedef struct s_rt
     void       *win;  // minilibxのウィンドウを指すポインタ
     int        screen_width;
     int        screen_height;
-    t_list 	*cameras;  // カメラのリスト
+    t_camera 	*camera;  // カメラのリスト
     t_list      *objects;  // 物体のリスト
     t_ambient    ambient;  // 環境光の強度
-    t_list      *lights;  // 光源のリスト	
+    t_light      *light;  // 光源のリスト	
 }	t_rt;
 
 //test

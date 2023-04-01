@@ -22,6 +22,10 @@ static int check_cylinder(char **argv, t_cylinder *cylinder)
 		return (1);
 	if (check_color(cylinder->color))
 		return (1);
+	if (cylinder->diameter < 0)
+		return (1);
+	if (cylinder->height < 0)
+		return (1);
 	return (0);
 }
 
@@ -30,6 +34,8 @@ static int check_sphere(char **argv, t_sphere *sphere)
 	if (check_vec(argv[0]))
 		return (1);
 	if (check_color(sphere->color))
+		return (1);
+	if (sphere->diameter < 0)
 		return (1);
 	return (0);
 }

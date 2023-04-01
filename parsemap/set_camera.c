@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:41:10 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/01 17:18:36 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/01 18:17:55 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,15 @@ int check_camera(char **argv, t_camera *camera)
 
 int set_camera(char **argv, t_rt *rt)
 {
-	t_camera *camera;
-
 	if (!argv || !argv[0] || !argv[1] || !argv[2])
 		return (1);
-	camera = (t_camera *)malloc(sizeof(t_camera));
-	if (!camera)
+	rt->camera = (t_camera *)malloc(sizeof(t_camera));
+	if (!rt->camera)
 		return (1);
-	camera->point = set_vec3(argv[0]);
-	camera->normalized = set_vec3(argv[1]);
-	camera->fov = ft_atoi(argv[2]);
-	if (check_camera(argv, camera))
-	{
-		free(camera);
+	rt->camera->point = set_vec3(argv[0]);
+	rt->camera->normalized = set_vec3(argv[1]);
+	rt->camera->fov = ft_atoi(argv[2]);
+	if (check_camera(argv, rt->camera))
 		return (1);
-	}
-	ft_lstadd_back(&rt->cameras, ft_lstnew((void *)camera));
 	return (0);
 }
