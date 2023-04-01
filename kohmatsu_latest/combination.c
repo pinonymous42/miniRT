@@ -19,6 +19,10 @@
 #define PLAIN 2
 #define CYLINDER 3
 
+#define NOTHING 0
+#define FRONT 1
+#define BACK 2
+
 typedef struct	s_game
 {
 	void	*mlx;
@@ -51,8 +55,15 @@ typedef struct s_object
 	t_vec3 vec;
 	t_vec3 normal_vec;
 	double diameter;
+	double height;
 	int	kind;
+	int	cylinder_front_or_back;
 } t_object;
+
+typedef struct s_orthonormal {
+	t_vec3	x_unit_vector;
+	t_vec3	y_unit_vector;
+} t_orthonormal;
 
 //mlx系
 int		deal_key(int key_code, t_game *game)
@@ -128,6 +139,17 @@ double	vec3_dot(t_vec3 vec1, t_vec3 vec2)//内積
 	return (vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z);
 }
 
+t_vec3	vec3_cross(t_vec3 vec1, t_vec3 vec2)//外積
+{
+	t_vec3	ret;
+
+	ret.x = vec1.y * vec2.z - vec1.z * vec2.y;
+	ret.y = vec1.z * vec2.x - vec1.x * vec2.z;
+	ret.z = vec1.x * vec2.y - vec1.y * vec2.x;
+
+	return (ret);
+}
+
 //色系
 t_fcolor	rgb_init(int r, int g, int b)
 {
@@ -151,12 +173,18 @@ t_fcolor	add_color(t_fcolor c1, t_fcolor c2, double multi)
 	ret.red = c1.red + c2.red * multi;
 	if (ret.red > 255)
 		ret.red = 255;
+	else if (ret.red < 0)
+		ret.red = 0;
 	ret.green = c1.green + c2.green * multi;
 	if (ret.green > 255)
 		ret.green = 255;
+	else if (ret.green < 0)
+		ret.green = 0;
 	ret.blue = c1.blue + c2.blue * multi;
 	if (ret.blue > 255)
 		ret.blue = 255;
+	else if (ret.green < 0)
+		ret.green = 0;
 	return (ret);
 }
 
@@ -173,20 +201,40 @@ t_material material_init(double kDif, double kSpe, double shininess)
 
 void	get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_object *object_list, double *t, int i)//交差判定
 {
-	if (object_list[i].kind == SPHERE)
+	t_vec3 camera2sphere_vec = vec3_sub(start_vec, object_list[i].vec); //カメラから球へのベクトル
+	double a;
+	double b;
+	double c;
+	double t1, t2;
+	t_vec3	bottom_center_vec;
+	if (object_list[i].kind == SPHERE || object_list[i].kind == CYLINDER)
 	{
-		t_vec3 camera2sphere_vec = vec3_sub(start_vec, object_list[i].vec); //カメラから球へのベクトル
-		double a = vec3_mag(dir_vec) * vec3_mag(dir_vec);
-		double b = 2 * vec3_dot(camera2sphere_vec, dir_vec);
-		double c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - object_list[i].diameter * object_list[i].diameter;
-		double t1, t2;
+		if (object_list[i].kind == SPHERE)
+		{
+			t_vec3 camera2sphere_vec = vec3_sub(start_vec, object_list[i].vec); //カメラから球へのベクトル
+			a = vec3_mag(dir_vec) * vec3_mag(dir_vec);
+			b = 2 * vec3_dot(camera2sphere_vec, dir_vec);
+			c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - object_list[i].diameter * object_list[i].diameter;
+		}
+		// else if (object_list[i].kind == CYLINDER)
+		// {
+		// 	bottom_center_vec = vec3_sub(object_list[i].vec, vec3_mul(object_list[i].normal_vec, object_list[i].height / 2));
+		// 	t_vec3	tmp_vec = vec3_sub(start_vec, bottom_center_vec);
+		// 	t_vec3	tmp_cross = vec3_cross(dir_vec, object_list[i].normal_vec);
+		// 	t_vec3	tmp_vec_and_cross = vec3_cross(tmp_vec, object_list[i].normal_vec);
+		// 	a = vec3_mag(tmp_cross) * vec3_mag(tmp_cross);
+		// 	b = 2 * vec3_dot(tmp_cross, tmp_vec_and_cross);
+		// 	c = vec3_mag(tmp_vec_and_cross) * vec3_mag(tmp_vec_and_cross) - object_list[i].diameter * object_list[i].diameter;
+		// }
 		// 判別式
 		double D = b * b - 4 * a * c;
 		if (D >= 0)
 		{
 			//交差判定
 			if (D == 0) //接する時
+			{
 				t[i] = -b / (2 * a);//媒介変数tの長さ
+			}
 			else if (D > 0) //交わる時
 			{
 				t1 = (-b + sqrt(D)) / (2 * a);
@@ -208,6 +256,26 @@ void	get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_object *object_list, double
 						t[i] = 0;
 				}
 			}
+			// if (object_list[i].kind == CYLINDER)
+			// {
+			// 	double compare1 = vec3_dot(vec3_sub(vec3_add(start_vec, vec3_mul(dir_vec, t1)), bottom_center_vec), object_list[i].normal_vec);
+			// 	double compare2 = vec3_dot(vec3_sub(vec3_add(start_vec, vec3_mul(dir_vec, t2)), bottom_center_vec), object_list[i].normal_vec);
+			// 	if (0 <= compare1 && compare1 <= object_list[i].height && t1 > 0)
+			// 	{
+			// 		t[i] = t1;
+			// 		object_list[i].cylinder_front_or_back = FRONT;
+			// 	}
+			// 	else if (0 <= compare2 && compare2 <= object_list[i].height && t2 > 0)
+			// 	{
+			// 		t[i] = t2;
+			// 		object_list[i].cylinder_front_or_back = BACK;
+			// 	}
+			// 	else
+			// 	{
+			// 		t[i] = 0;
+			// 		object_list[i].cylinder_front_or_back = NOTHING;
+			// 	}
+			// }
 		}
 		else
 			t[i] = 0;
@@ -261,6 +329,7 @@ void	my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_object 
 	int	index;
 	double diffusion = 0;
 	double specular = 0;
+	t_fcolor shade = rgb_init(255, 255, 255);
 	t_fcolor new = rgb_init(0, 0, 0);
 	t_vec3 crosspoint_vec = vec3_add(camera_vec, vec3_mul(dir_vec, t[i]));//視線と物体の交点の位置ベクトル
 	t_vec3 incident_vec = vec3_normalize(vec3_sub(light_vec, crosspoint_vec));//入射ベクトル(入射って言ってるけど、向きに注意)
@@ -274,45 +343,73 @@ void	my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_object 
 	for(index = 0; index < NUMBER; index++)
 		get_t_value(vec3_add(crosspoint_vec, vec3_mul(incident_vec, epsilon)), incident_vec, object_list, tmp_t, index);
 	tmp_min_index = get_min_index(tmp_t, NUMBER);
+	t_vec3	reflect_normal_vec;
 	if (tmp_t[tmp_min_index] == 0 || distance < vec3_mag(vec3_add(crosspoint_vec, vec3_mul(incident_vec, epsilon + tmp_t[tmp_min_index]))))
 	{
-		//拡散反射
 		if (object_list[i].kind == SPHERE)
-			object_list[i].normal_vec = vec3_normalize(vec3_sub(crosspoint_vec, object_list[i].vec));//法線ベクトル
+			reflect_normal_vec = vec3_normalize(vec3_sub(crosspoint_vec, object_list[i].vec));//法線ベクトル
+		else if (object_list[i].kind == PLAIN)
+			reflect_normal_vec = object_list[i].normal_vec;
+		// else if (object_list[i].kind == CYLINDER)
+		// {
+		// 	t_vec3 bottom_center_vec = vec3_sub(object_list[i].vec, vec3_mul(object_list[i].normal_vec, object_list[i].height / 2));
+		// 	t_vec3 tmp_vec = vec3_sub(camera_vec, bottom_center_vec);
+		// 	if (object_list[i].cylinder_front_or_back == FRONT)
+		// 		reflect_normal_vec = vec3_normalize(vec3_sub(tmp_vec, vec3_mul(object_list[i].normal_vec, vec3_dot(tmp_vec, object_list[i].normal_vec))));
+		// 	else if (object_list[i].cylinder_front_or_back == BACK)
+		// 		reflect_normal_vec = vec3_mul(vec3_normalize(vec3_sub(tmp_vec, vec3_mul(object_list[i].normal_vec, vec3_dot(tmp_vec, object_list[i].normal_vec)))), -1);
+		// }
+		//拡散反射
 		double dot_1;
-		if (vec3_dot(incident_vec, object_list[i].normal_vec) < 0)
+		if (vec3_dot(incident_vec, reflect_normal_vec) < 0)
 			dot_1 = 0;
 		else
-			dot_1 = vec3_dot(incident_vec, object_list[i].normal_vec);
+			dot_1 = vec3_dot(incident_vec, reflect_normal_vec);
 		diffusion = dot_1 * object_list[i].material.kDif;
 		new = add_color(new, object_list[i].color, diffusion);
 
 		// 鏡面反射
 		t_vec3 reverse_dir_vec = vec3_normalize(vec3_mul(dir_vec, -1));//視線ベクトルの逆向き
-		t_vec3 regular_reflection_vec = vec3_normalize(vec3_sub(vec3_mul(vec3_mul(object_list[i].normal_vec, vec3_dot(incident_vec, object_list[i].normal_vec)), 2), incident_vec));
+		t_vec3 regular_reflection_vec = vec3_normalize(vec3_sub(vec3_mul(vec3_mul(reflect_normal_vec, vec3_dot(incident_vec, reflect_normal_vec)), 2), incident_vec));
 		double dot_2;
 		if (vec3_dot(reverse_dir_vec, regular_reflection_vec) < 0)
 			dot_2 = 0;
 		else
 			dot_2 = vec3_dot(reverse_dir_vec, regular_reflection_vec);
 		specular = pow(dot_2, object_list[i].material.shininess) * object_list[i].material.kSpe;
+		new = add_color(new, light_color, light_power * specular);
 	}
 
 	if (t[i] > 0)
-		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int(new.red, new.green, new.blue));
+		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int((int)new.red, (int)new.green, (int)new.blue));
 	else
-		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int(0, 0, 0));
+		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int(255, 0, 0));
+	free(tmp_t);
+}
+
+t_orthonormal	init_unit(t_vec3 camera_vec, t_vec3 camera_normal_vec)
+{
+	t_orthonormal	ret;
+
+	t_vec3	y_unit_vector = vec3_init(0, 1, 0); //(0, 1, 0)の単位ベクトル。これを定義しないと自由に回転できちゃう。
+	ret.x_unit_vector = vec3_cross(y_unit_vector, camera_normal_vec);
+	ret.y_unit_vector = vec3_cross(camera_normal_vec, ret.x_unit_vector);
+	return (ret);
 }
 
 int		main_loop(t_game *game)
 {
+	double theta = 80;//FOV
+	double	camera2screen = 2 / (2 * tan(((theta / 180 * M_PI)/ 2)));//カメラからスクリーンまでの距離
 	double epsilon = 1.0 / 512; //微小距離
-	t_vec3 camera_vec = vec3_init(0, 0, -5); //視点位置のベクトル
+	t_vec3 camera_vec = vec3_init(10, 10, -10); //視点位置のベクトル
+	t_vec3 camera_normal_vec = vec3_normalize(vec3_init(-9, -10, 25)); //視点位置の法線ベクトル
+	t_orthonormal screen_unit_vec = init_unit(camera_vec, camera_normal_vec);
 	double light_power = 1.0;
 	t_fcolor light_color = rgb_init(255, 255, 255);
 	double ambient_power = 0.1;
 	t_fcolor ambient_color = rgb_init(255, 255, 255);
-	t_vec3 light_vec = vec3_init(-5, -5, -5); //光源の位置ベクトル
+	t_vec3 light_vec = vec3_init(-5, 25, -5); //光源の位置ベクトル
 	t_object *object_list = (t_object *)malloc(sizeof(t_object) * NUMBER);
 	//1個目の球
 	object_list[0].vec = vec3_init(-1, 0, 5); //球の中心座標
@@ -350,11 +447,20 @@ int		main_loop(t_game *game)
 	object_list[4].kind = SPHERE;
 
 	//平面
-	object_list[5].vec = vec3_init(0, 1, 0);
+	object_list[5].vec = vec3_init(0, -1, 0);
 	object_list[5].color = rgb_init(0, 255, 255);
 	object_list[5].material = material_init(0.69, 0.3, 8);
-	object_list[5].normal_vec = vec3_init(0, -1, 0);
+	object_list[5].normal_vec = vec3_init(0, 1, 0);
 	object_list[5].kind = PLAIN;
+
+	// //円筒
+	// object_list[6].vec = vec3_init(0, 0, 0);
+	// object_list[6].diameter = 1;
+	// object_list[6].height = 2;
+	// object_list[6].color = rgb_init(130, 130, 130);
+	// object_list[6].material = material_init(0.69, 0.3, 8);
+	// object_list[6].normal_vec = vec3_init(0, 1, 0);
+	// object_list[6].kind = CYLINDER;
 
 	int i;
 	int min_index;
@@ -362,8 +468,10 @@ int		main_loop(t_game *game)
 	{
 		for (double x = 0; x < WIDTH; x++)
 		{
+			double	f_x = 2 * x / WIDTH - 1.0;
+			double	f_y = -(2 * y / HEIGHT - 1.0);
 			double *t = (double *)malloc(sizeof(double) * NUMBER);
-			t_vec3 screen_vec = vec3_init(2 * x / WIDTH - 1.0, 2 * y / HEIGHT - 1.0, 0); //スクリーン上の点の三次元空間におけるベクトル
+			t_vec3 screen_vec = vec3_add(vec3_add(vec3_add(camera_vec, vec3_mul(camera_normal_vec, camera2screen)), vec3_mul(screen_unit_vec.x_unit_vector, f_x)), vec3_mul(screen_unit_vec.y_unit_vector, f_y)); //スクリーン上の点の三次元空間におけるベクトル
 			t_vec3 dir_vec = vec3_normalize(vec3_sub(screen_vec, camera_vec)); //方向ベクトル(視線ベクトル)
 
 			for (i = 0; i < NUMBER; i++)
@@ -383,9 +491,15 @@ int main(void)
 	t_game game;
 
 	game.mlx = mlx_init();
-	game.win = mlx_new_window(game.mlx, WIDTH, HEIGHT, "mlx 42");
+	game.win = mlx_new_window(game.mlx, WIDTH, HEIGHT, "miniRT");
 	mlx_hook(game.win, X_EVENT_KEY_PRESS, 1, &deal_key, &game);
 	mlx_hook(game.win, X_EVENT_KEY_EXIT, 1, &window_close, &game);
 	mlx_loop_hook(game.mlx, &main_loop, &game);
 	mlx_loop(game.mlx);
+	return (0);
 }
+
+// __attribute__((destructor)) static void destructor()
+// {
+//     system("leaks -q a.out");
+// }
