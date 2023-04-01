@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 04:02:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/01 14:02:54 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/01 17:14:53 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_ambient
 typedef struct s_camera
 {
 	t_vec3 point;
-	t_vec3 way;
+	t_vec3 normalized;
 	int fov;
 } t_camera;
 
@@ -52,7 +52,7 @@ typedef struct s_camera
 typedef struct s_light
 {
 	t_vec3 point;
-	int ratio;
+	double ratio;
 	t_color color;
 } t_light;
 
@@ -105,16 +105,25 @@ typedef struct s_rt
 void put_rt(t_rt *rt);
 
 //input file && create struct
-int set_object(char **elements, t_rt *rt);
 t_color set_color(char *arg);
 t_vec3 set_vec3(char *arg);
+int set_object(char **elements, t_rt *rt);
 int set_ambient(char **argv, t_rt *rt);
 int set_camera(char **argv, t_rt *rt);
 int set_light(char **argv, t_rt *rt);
 int create_map(char *filename, t_rt *rt);
 
+//checker
+int check_vec(char *vec_str);
+int check_vec_range(t_vec3 vec, double min, double max);
+int check_color(t_color color);
+
 //util
 void free_args(char **args);
+int ft_isdouble(char c);
+int check_double(char *str);
 
+//atof
+double ft_atof(char *str);
 
 #endif

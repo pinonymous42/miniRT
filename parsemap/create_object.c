@@ -12,6 +12,41 @@
 
 #include "miniRT.h"
 
+static int check_cylinder(char **argv, t_cylinder *cylinder)
+{
+	if (check_vec(argv[0]))
+		return (1);
+	if (check_vec(argv[1]))
+		return (1);
+	if (check_vec_range(cylinder->normalized, -1, 1))
+		return (1);
+	if (check_color(cylinder->color))
+		return (1);
+	return (0);
+}
+
+static int check_sphere(char **argv, t_sphere *sphere)
+{
+	if (check_vec(argv[0]))
+		return (1);
+	if (check_color(sphere->color))
+		return (1);
+	return (0);
+}
+
+static int check_plane(char **argv, t_plane *plane)
+{
+	if (check_vec(argv[0]))
+		return (1);
+	if (check_vec(argv[1]))
+		return (1);
+	if (check_vec_range(plane->normalized, -1, 1))
+		return (1);
+	if (check_color(plane->color))
+		return (1);
+	return (0);
+}
+
 static t_cylinder *set_cylinder(char **argv)
 {
 	t_cylinder *cylinder;
@@ -26,6 +61,11 @@ static t_cylinder *set_cylinder(char **argv)
 	cylinder->diameter = atof(argv[2]);
 	cylinder->height = atof(argv[3]);
 	cylinder->color = set_color(argv[4]);
+	if (check_cylinder(argv, cylinder))
+	{
+		free (cylinder);
+		return (NULL);
+	}
 	return (cylinder);
 }
 
@@ -41,6 +81,11 @@ static t_plane *set_plane(char **argv)
 	plane->point = set_vec3(argv[0]);
 	plane->normalized = set_vec3(argv[1]);
 	plane->color = set_color(argv[2]);
+	if (check_plane(argv, plane))
+	{
+		free(plane);
+		return (NULL);
+	}
 	return (plane);
 }
 
@@ -56,6 +101,11 @@ static t_sphere *set_sphere(char **argv)
 	sphere->center = set_vec3(argv[0]);
 	sphere->diameter = atof(argv[1]);
 	sphere->color = set_color(argv[2]);
+	if (check_sphere(argv, sphere))
+	{
+		free(sphere);
+		return (NULL);
+	}
 	return (sphere);
 }
 

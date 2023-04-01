@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 16:01:21 by asanotomoki       #+#    #+#             */
-/*   Updated: 2023/04/01 14:45:20 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/01 16:13:52 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int main(int argc, char *argv[])
 		return (1);
 	}
 	init_rt(&rt);
-	create_map(argv[1], &rt);
+	if (create_map(argv[1], &rt))
+		exit (1);
 	put_rt(&rt);
 	return (0);
 }
