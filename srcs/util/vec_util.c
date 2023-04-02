@@ -6,10 +6,12 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:27:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 11:27:59 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/02 14:31:45 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "vector.h"
+#include <math.h>
 //ベクトル演算系
 t_vec3	vec3_init(double x, double y , double z)
 {

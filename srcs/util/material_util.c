@@ -6,10 +6,11 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:56:45 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 11:56:49 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/02 14:50:23 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "material.h"
 //material系
 t_material material_init(double kDif, double kSpe, double shininess)
 {

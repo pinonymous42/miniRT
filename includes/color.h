@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_color.c                                      :+:      :+:    :+:   */
+/*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/01 16:25:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 12:16:13 by tasano           ###   ########.fr       */
+/*   Created: 2023/04/02 14:19:33 by tasano            #+#    #+#             */
+/*   Updated: 2023/04/02 14:24:52 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#ifndef COLOR_H
+#define COLOR_H
 
-int check_color(t_fcolor color)
-{
-	if (color.red < 0 || 255 < color.red)
-		return (1);
-	if (color.green < 0 || 255 < color.green)
-		return (1);
-	if (color.blue < 0 || 255 < color.blue)
-		return (1);
-	return (0);
-}
+typedef struct s_fcolor {
+    double     red;
+    double     green;
+    double     blue;
+}               t_fcolor;
+
+t_fcolor	rgb_init(int r, int g, int b);
+int	rgb_to_int(int r, int g, int b);
+t_fcolor	add_color(t_fcolor c1, t_fcolor c2, double multi);
+
+#endif

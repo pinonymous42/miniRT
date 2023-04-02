@@ -6,11 +6,12 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:28:38 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 11:28:53 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/02 14:29:30 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
+#include "color.h"
+#include <math.h>
 //色系
 t_fcolor	rgb_init(int r, int g, int b)
 {

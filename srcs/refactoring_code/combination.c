@@ -12,22 +12,22 @@
 #include <float.h>
 #include <stdlib.h>
 
-void	get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_object *object_list, double *t, int i)//交差判定
+void	get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_objects *object_list, double *t, int i)//交差判定
 {
-	t_vec3 camera2sphere_vec = vec3_sub(start_vec, object_list[i].vec); //カメラから球へのベクトル
+	t_vec3 camera2sp_vec = vec3_sub(start_vec, object_list[i].vec); //カメラから球へのベクトル
 	double a;
 	double b;
 	double c;
 	double t1, t2;
 	t_vec3	bottom_center_vec;
-	if (object_list[i].kind == SPHERE)
+	if (object_list[i].kind == sp)
 	{
-		if (object_list[i].kind == SPHERE)
+		if (object_list[i].kind == sp)
 		{
-			t_vec3 camera2sphere_vec = vec3_sub(start_vec, object_list[i].vec); //カメラから球へのベクトル
+			t_vec3 camera2sp_vec = vec3_sub(start_vec, object_list[i].vec); //カメラから球へのベクトル
 			a = vec3_mag(dir_vec) * vec3_mag(dir_vec);
-			b = 2 * vec3_dot(camera2sphere_vec, dir_vec);
-			c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - object_list[i].diameter * object_list[i].diameter;
+			b = 2 * vec3_dot(camera2sp_vec, dir_vec);
+			c = vec3_dot(camera2sp_vec, camera2sp_vec) - object_list[i].diameter * object_list[i].diameter;
 		}
 		// 判別式
 		double D = b * b - 4 * a * c;
@@ -63,7 +63,7 @@ void	get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_object *object_list, double
 		else
 			t[i] = 0;
 	}
-	else if (object_list[i].kind == PLAIN)
+	else if (object_list[i].kind == pl)
 	{
 		if (vec3_dot(dir_vec, object_list[i].normal_vec) == 0)
 			t[i] = 0;
@@ -105,7 +105,7 @@ int	get_min_index(double *t, int number)
 	return (min_index);
 }
 
-double	check_shadow(t_vec3 crosspoint_vec, t_vec3 incident_vec, double epsilon, t_object *object_list)
+double	check_shadow(t_vec3 crosspoint_vec, t_vec3 incident_vec, double epsilon, t_objects *object_list)
 {
 	double	*check_shadow = malloc(sizeof(double) * NUMBER);
 	int		tmp_min_index;
@@ -117,18 +117,18 @@ double	check_shadow(t_vec3 crosspoint_vec, t_vec3 incident_vec, double epsilon, 
 	return (check_shadow[tmp_min_index]);
 }
 
-t_vec3	determin_normal_vec(t_object *object_list, t_vec3 crosspoint_vec, int i)
+t_vec3	determin_normal_vec(t_objects *object_list, t_vec3 crosspoint_vec, int i)
 {
 	t_vec3	normal_vec;
 
-	if (object_list[i].kind == SPHERE)
+	if (object_list[i].kind == sp)
 		normal_vec = vec3_normalize(vec3_sub(crosspoint_vec, object_list[i].vec));//法線ベクトル
-	else if (object_list[i].kind == PLAIN)
+	else if (object_list[i].kind == pl)
 		normal_vec = object_list[i].normal_vec;
 	return (normal_vec);
 }
 
-t_fcolor	diffusion(t_vec3 incident_vec, t_vec3 reflect_normal_vec, t_object *object_list, int i, t_fcolor new)
+t_fcolor	diffusion(t_vec3 incident_vec, t_vec3 reflect_normal_vec, t_objects *object_list, int i, t_fcolor new)
 {
 	double	diffusion = 0;
 	double	dot_1;
@@ -141,7 +141,7 @@ t_fcolor	diffusion(t_vec3 incident_vec, t_vec3 reflect_normal_vec, t_object *obj
 }
 
 t_fcolor specular(t_vec3 dir_vec, t_vec3 reflect_normal_vec,
-	t_vec3 incident_vec, t_object *object_list, t_fcolor new,
+	t_vec3 incident_vec, t_objects *object_list, t_fcolor new,
 		t_fcolor light_color, double light_power, int i)
 {
 	double	specular = 0;
@@ -156,7 +156,7 @@ t_fcolor specular(t_vec3 dir_vec, t_vec3 reflect_normal_vec,
 	return (add_color(new, light_color, light_power * specular));
 }
 
-void	my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_object *object_list, double *t,
+void	my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_objects *object_list, double *t,
 			int i, double light_power, double ambient_power, t_game *game, double x, double y, double epsilon,
 			t_fcolor light_color, t_fcolor ambient_color)
 {
@@ -209,41 +209,41 @@ int		main_loop(t_game *game)
 	double ambient_power = 0.1;
 	t_fcolor ambient_color = rgb_init(255, 255, 255);
 	t_vec3 light_vec = vec3_init(-5, 25, -5); //光源の位置ベクトル
-	t_object *object_list = (t_object *)malloc(sizeof(t_object) * NUMBER);
+	t_objects *object_list = (t_objects *)malloc(sizeof(t_objects) * NUMBER);
 	//1個目の球
 	object_list[0].vec = vec3_init(-1, 0, 5); //球の中心座標
 	object_list[0].diameter = 1.0; //球の直径
 	object_list[0].color = rgb_init(255, 0, 0);
 	object_list[0].material = material_init(0.69, 0.3, 8);
-	object_list[0].kind = SPHERE;
+	object_list[0].kind = sp;
 
 	//2個目の球
 	object_list[1].vec = vec3_init(0, 0, 10); //球の中心座標
 	object_list[1].diameter = 1.0; //球の直径
 	object_list[1].color = rgb_init(255, 255, 0);
 	object_list[1].material = material_init(0.69, 0.3, 8);
-	object_list[1].kind = SPHERE;
+	object_list[1].kind = sp;
 
 	//3個目の球
 	object_list[2].vec = vec3_init(1, 0, 15); //球の中心座標
 	object_list[2].diameter = 1.0; //球の直径
 	object_list[2].color = rgb_init(0, 0, 255);
 	object_list[2].material = material_init(0.69, 0.3, 8);
-	object_list[2].kind = SPHERE;
+	object_list[2].kind = sp;
 
 	//4個目の球
 	object_list[3].vec = vec3_init(2, 0, 20); //球の中心座標
 	object_list[3].diameter = 1.0; //球の直径
 	object_list[3].color = rgb_init(255, 0, 255);
 	object_list[3].material = material_init(0.69, 0.3, 8);
-	object_list[3].kind = SPHERE;
+	object_list[3].kind = sp;
 
 	//5個目の球
 	object_list[4].vec = vec3_init(3, 0, 25); //球の中心座標
 	object_list[4].diameter = 1.0; //球の直径
 	object_list[4].color = rgb_init(0, 255, 0);
 	object_list[4].material = material_init(0.69, 0.3, 8);
-	object_list[4].kind = SPHERE;
+	object_list[4].kind = sp;
 
 	//平面
 	object_list[5].vec = vec3_init(0, -1, 0);

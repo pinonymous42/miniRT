@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_color.c                                      :+:      :+:    :+:   */
+/*   matrix.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/01 16:25:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 12:16:13 by tasano           ###   ########.fr       */
+/*   Created: 2023/04/02 14:22:16 by tasano            #+#    #+#             */
+/*   Updated: 2023/04/02 14:46:35 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+typedef struct     s_material {
+    double        kDif;      // 拡散反射係数  // これを物体の色とする
+    double        kSpe;      // 鏡面反射係数
+    float          shininess; // 光沢度
+}                   t_material;
 
-int check_color(t_fcolor color)
-{
-	if (color.red < 0 || 255 < color.red)
-		return (1);
-	if (color.green < 0 || 255 < color.green)
-		return (1);
-	if (color.blue < 0 || 255 < color.blue)
-		return (1);
-	return (0);
-}
+t_material		material_init(double kDif, double kSpe, double shininess);
