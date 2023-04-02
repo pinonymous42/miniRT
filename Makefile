@@ -6,12 +6,12 @@
 #    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/02 10:28:36 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/02 10:59:41 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	miniRT
-OBJDIR		:=	./obj
+OBJ_DIR		:=	./obj
 SRC_DIR		:=	./srcs
 CC			:=	cc
 CFLAGS		:=	-Wall -Werror -Wextra
@@ -22,50 +22,55 @@ LIBFT_DIR		:=	./lib/libft
 LIBFT			:=	$(LIBFT_DIR)/libft.a
 HEADERS			+=	$(LIBFT_DIR)/includes
 
+MLX_DIR		:=	./lib/mlx
+LIBMLX		:=	$(MLX_DIR)/libmlx.a
+LXFLAGS		:=	-framework OpenGL -framework AppKit
+HEADERS		+= $(MLX_DIR)
+
 INCLUDES		:=	$(addprefix -I , $(HEADERS))
 
-SRC_FILE :=	main.c
-SOURCES :=  $(addprefix $(SRC_DIR)/, $(SRC_FILE))
-SRC_FILE :=  create_map.c set_ambient.c set_camera.c set_color.c set_light.c set_vec.c create_object.c check_color.c check_vec.c
-SRC_FILE +=  util.c
-SOURCES += $(addprefix ./srcs/create_map/, $(SRC_FILE))
-OBJECTS	:= $(addprefix $(OBJDIR)/, $(notdir $(SOURCES:.c=.o)))
+SOURCES :=	main.c
+SRC_FILE := create_map.c set_ambient.c set_camera.c set_color.c set_light.c set_vec.c create_object.c check_color.c check_vec.c
+SRC_FILE += util.c
+SOURCES += $(addprefix create_map/, $(SRC_FILE))
+OBJECTS	:= $(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
 RM := rm -f
-
 #Message
 RED		:= \033[1;31m
 GREEN	:= \033[1;32m
 YELLOW	:= \033[1;33m
 DEFAULT	:= \033[0m
 NAME_MSG	:=	"$(GREEN) Compile $(NAME)$(DEFAULT)"
-CLEAN_MSG	:=	"$(YELLOW) Delete $(OBJDIR)$(DEFAULT)"
+CLEAN_MSG	:=	"$(YELLOW) Delete $(OBJ_DIR)$(DEFAULT)"
 FCLEAN_MSG	:=	"$(RED) Delete $(NAME)$(DEFAULT)"
 
 .PHONY: all fclean clean re libft
 
-$(NAME):  $(OBJECTS) $(LIBFT)
-	$(CC) $(CFLAGS) -o $(NAME) $(LIBFT) $(OBJECTS)
-	echo $(NAME_MSG)
+$(NAME):   $(LIBFT) $(LIBMLX) $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(NAME) $(LIBFT) $(LIBMLX) $(LXFLAGS) $(OBJECTS)
+	@echo $(NAME_MSG)
 
-$(OBJDIR)/%.o: $(SRC_DIR)/%.c
-	-mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIBFT):
-	@make -C $(LIBFT_DIR)
+	make -C $(LIBFT_DIR)
+
+$(LIBMLX) : 
+	@make -C $(MLX_DIR)
 
 all: $(NAME)
 
-libft:
-	make -C $(LIBFT_DIR)
-
 clean:
-	@rm -rf $(OBJDIR)
-	@make clean -C $(LIBFT_DIR)
+	@rm -rf $(OBJ_DIR)
 	@echo $(CLEAN_MSG)
+	@make clean -C $(LIBFT_DIR)
+	@make clean -C $(MLX_DIR)
 
 fclean:clean
 	@make fclean -C $(LIBFT_DIR)
+	@make fclean -C $(MLX_DIR)
 	@echo $(FCLEAN_MSG)
 
 re: fclean all
