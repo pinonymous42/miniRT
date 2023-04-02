@@ -6,7 +6,7 @@
 #    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/02 11:09:07 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/02 11:15:54 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME		:=	miniRT
 OBJ_DIR		:=	./obj
 SRC_DIR		:=	./srcs
 CC			:=	cc
-CFLAGS		:=	-Wall -Werror -Wextra
-CFLAGS  	+=  -fsanitize=address -g
+#CFLAGS		:=	-Wall -Werror -Wextra
+#CFLAGS  	+=  -fsanitize=address -g
 
 HEADERS			:=  ./includes
 LIBFT_DIR		:=	./lib/libft
@@ -33,6 +33,9 @@ SOURCES :=	main.c
 SRC_FILE := create_map.c set_ambient.c set_camera.c set_color.c set_light.c set_vec.c create_object.c check_color.c check_vec.c
 SRC_FILE += util.c
 SOURCES += $(addprefix create_map/, $(SRC_FILE))
+
+SRC_FILE := combination.c
+SOURCES += $(addprefix refactoring_code/, $(SRC_FILE))
 OBJECTS	:= $(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
 RM := rm -f
 #Message
