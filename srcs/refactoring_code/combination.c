@@ -110,11 +110,13 @@ double	check_shadow(t_vec3 crosspoint_vec, t_vec3 incident_vec, double epsilon, 
 	double	*check_shadow = malloc(sizeof(double) * NUMBER);
 	int		tmp_min_index;
 	int		index;
+	double	shadow_min;
 	for(index = 0; index < NUMBER; index++)
 		get_t_value(vec3_add(crosspoint_vec, vec3_mul(incident_vec, epsilon)), incident_vec, object_list, check_shadow, index);
 	tmp_min_index = get_min_index(check_shadow, NUMBER);
+	shadow_min  = check_shadow[tmp_min_index];
 	free(check_shadow);
-	return (check_shadow[tmp_min_index]);
+	return (shadow_min);
 }
 
 t_vec3	determin_normal_vec(t_object *object_list, t_vec3 crosspoint_vec, int i)
