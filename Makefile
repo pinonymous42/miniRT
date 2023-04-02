@@ -6,7 +6,7 @@
 #    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/02 10:59:41 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/02 11:09:07 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ clean:
 fclean:clean
 	@make fclean -C $(LIBFT_DIR)
 	@make fclean -C $(MLX_DIR)
+	@$(RM) $(NAME)
 	@echo $(FCLEAN_MSG)
 
 re: fclean all
