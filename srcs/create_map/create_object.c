@@ -12,6 +12,11 @@
 
 #include "create_map.h"
 
+
+
+
+#include "miniRT.h"
+
 static int check_cylinder(char **argv, t_cylinder *cylinder)
 {
 	if (check_vec(argv[0]))

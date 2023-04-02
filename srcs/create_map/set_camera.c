@@ -6,12 +6,17 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:41:10 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 08:56:19 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/02 13:47:58 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "create_map.h"
 
+
+
+
+
+#include "miniRT.h"
 int check_camera(char **argv, t_camera *camera)
 {
 	if (check_vec(argv[0]))

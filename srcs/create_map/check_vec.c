@@ -6,11 +6,16 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 16:05:52 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 09:16:23 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/02 13:47:34 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "create_map.h"
+
+
+
+
+#include "miniRT.h"
 
 int check_vec_range(t_vec3 vec, double min, double max)
 {
