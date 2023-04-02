@@ -6,7 +6,7 @@
 #    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/02 10:24:00 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/02 10:28:36 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRC_FILE :=	main.c
 SOURCES :=  $(addprefix $(SRC_DIR)/, $(SRC_FILE))
 SRC_FILE :=  create_map.c set_ambient.c set_camera.c set_color.c set_light.c set_vec.c create_object.c check_color.c check_vec.c
 SRC_FILE +=  util.c
-SOURCES := $(addprefix ./srcs/create_map/, $(SRC_FILE))
+SOURCES += $(addprefix ./srcs/create_map/, $(SRC_FILE))
 OBJECTS	:= $(addprefix $(OBJDIR)/, $(notdir $(SOURCES:.c=.o)))
 RM := rm -f
 
