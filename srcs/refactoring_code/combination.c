@@ -1,6 +1,11 @@
 #include "libft.h"
 #include "mlx.h"
 #include "combination.h"
+#include "create_map.h"
+#include "key_code.h"
+#include "miniRT.h"
+#include "mlx_info.h"
+#include "vector.h"
 #include <math.h>
 #include <stdio.h>
 #include <limits.h>
@@ -15,7 +20,7 @@ void	get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_object *object_list, double
 	double c;
 	double t1, t2;
 	t_vec3	bottom_center_vec;
-	if (object_list[i].kind == SPHERE || object_list[i].kind == CYLINDER)
+	if (object_list[i].kind == SPHERE)
 	{
 		if (object_list[i].kind == SPHERE)
 		{
@@ -24,16 +29,6 @@ void	get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_object *object_list, double
 			b = 2 * vec3_dot(camera2sphere_vec, dir_vec);
 			c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - object_list[i].diameter * object_list[i].diameter;
 		}
-		// else if (object_list[i].kind == CYLINDER)
-		// {
-		// 	bottom_center_vec = vec3_sub(object_list[i].vec, vec3_mul(object_list[i].normal_vec, object_list[i].height / 2));
-		// 	t_vec3	tmp_vec = vec3_sub(start_vec, bottom_center_vec);
-		// 	t_vec3	tmp_cross = vec3_cross(dir_vec, object_list[i].normal_vec);
-		// 	t_vec3	tmp_vec_and_cross = vec3_cross(tmp_vec, object_list[i].normal_vec);
-		// 	a = vec3_mag(tmp_cross) * vec3_mag(tmp_cross);
-		// 	b = 2 * vec3_dot(tmp_cross, tmp_vec_and_cross);
-		// 	c = vec3_mag(tmp_vec_and_cross) * vec3_mag(tmp_vec_and_cross) - object_list[i].diameter * object_list[i].diameter;
-		// }
 		// 判別式
 		double D = b * b - 4 * a * c;
 		if (D >= 0)
@@ -64,26 +59,6 @@ void	get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_object *object_list, double
 						t[i] = 0;
 				}
 			}
-			// if (object_list[i].kind == CYLINDER)
-			// {
-			// 	double compare1 = vec3_dot(vec3_sub(vec3_add(start_vec, vec3_mul(dir_vec, t1)), bottom_center_vec), object_list[i].normal_vec);
-			// 	double compare2 = vec3_dot(vec3_sub(vec3_add(start_vec, vec3_mul(dir_vec, t2)), bottom_center_vec), object_list[i].normal_vec);
-			// 	if (0 <= compare1 && compare1 <= object_list[i].height && t1 > 0)
-			// 	{
-			// 		t[i] = t1;
-			// 		object_list[i].cylinder_front_or_back = FRONT;
-			// 	}
-			// 	else if (0 <= compare2 && compare2 <= object_list[i].height && t2 > 0)
-			// 	{
-			// 		t[i] = t2;
-			// 		object_list[i].cylinder_front_or_back = BACK;
-			// 	}
-			// 	else
-			// 	{
-			// 		t[i] = 0;
-			// 		object_list[i].cylinder_front_or_back = NOTHING;
-			// 	}
-			// }
 		}
 		else
 			t[i] = 0;
@@ -105,7 +80,7 @@ int	get_min_index(double *t, int number)
 	double min;
 	int min_index;
 
-	for(i = 0; i < number; i++)
+	for(i = 0; i < number; i++)//最小値は0じゃない方がいい
 	{
 		if (t[i] != 0)
 		{
@@ -116,7 +91,7 @@ int	get_min_index(double *t, int number)
 		min = 0;
 		min_index = 0;
 	}
-	if (min != 0)
+	if (min != 0)//全探索して最小値が0だから、全ての値が0。比較する必要はない。
 	{
 		for(i = 0; i < number; i++)
 		{
@@ -130,69 +105,85 @@ int	get_min_index(double *t, int number)
 	return (min_index);
 }
 
+double	check_shadow(t_vec3 crosspoint_vec, t_vec3 incident_vec, double epsilon, t_object *object_list)
+{
+	double	*check_shadow = malloc(sizeof(double) * NUMBER);
+	int		tmp_min_index;
+	int		index;
+	for(index = 0; index < NUMBER; index++)
+		get_t_value(vec3_add(crosspoint_vec, vec3_mul(incident_vec, epsilon)), incident_vec, object_list, check_shadow, index);
+	tmp_min_index = get_min_index(check_shadow, NUMBER);
+	free(check_shadow);
+	return (check_shadow[tmp_min_index]);
+}
+
+t_vec3	determin_normal_vec(t_object *object_list, t_vec3 crosspoint_vec, int i)
+{
+	t_vec3	normal_vec;
+
+	if (object_list[i].kind == SPHERE)
+		normal_vec = vec3_normalize(vec3_sub(crosspoint_vec, object_list[i].vec));//法線ベクトル
+	else if (object_list[i].kind == PLAIN)
+		normal_vec = object_list[i].normal_vec;
+	return (normal_vec);
+}
+
+t_fcolor	diffusion(t_vec3 incident_vec, t_vec3 reflect_normal_vec, t_object *object_list, int i, t_fcolor new)
+{
+	double	diffusion = 0;
+	double	dot_1;
+	if (vec3_dot(incident_vec, reflect_normal_vec) < 0)
+		dot_1 = 0;
+	else
+		dot_1 = vec3_dot(incident_vec, reflect_normal_vec);
+	diffusion = dot_1 * object_list[i].material.kDif;
+	return (add_color(new, object_list[i].color, diffusion));
+}
+
+t_fcolor specular(t_vec3 dir_vec, t_vec3 reflect_normal_vec,
+	t_vec3 incident_vec, t_object *object_list, t_fcolor new,
+		t_fcolor light_color, double light_power, int i)
+{
+	double	specular = 0;
+	t_vec3 reverse_dir_vec = vec3_normalize(vec3_mul(dir_vec, -1));//視線ベクトルの逆向き
+	t_vec3 regular_reflection_vec = vec3_normalize(vec3_sub(vec3_mul(vec3_mul(reflect_normal_vec, vec3_dot(incident_vec, reflect_normal_vec)), 2), incident_vec));
+	double dot_2;
+	if (vec3_dot(reverse_dir_vec, regular_reflection_vec) < 0)
+		dot_2 = 0;
+	else
+		dot_2 = vec3_dot(reverse_dir_vec, regular_reflection_vec);
+	specular = pow(dot_2, object_list[i].material.shininess) * object_list[i].material.kSpe;
+	return (add_color(new, light_color, light_power * specular));
+}
+
 void	my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_object *object_list, double *t,
 			int i, double light_power, double ambient_power, t_game *game, double x, double y, double epsilon,
 			t_fcolor light_color, t_fcolor ambient_color)
 {
 	int	index;
-	double diffusion = 0;
-	double specular = 0;
 	t_fcolor shade = rgb_init(255, 255, 255);
 	t_fcolor new = rgb_init(0, 0, 0);
 	t_vec3 crosspoint_vec = vec3_add(camera_vec, vec3_mul(dir_vec, t[i]));//視線と物体の交点の位置ベクトル
 	t_vec3 incident_vec = vec3_normalize(vec3_sub(light_vec, crosspoint_vec));//入射ベクトル(入射って言ってるけど、向きに注意)
-
+	//ambientを加える
 	new = add_color(new, ambient_color, ambient_power);
-
-	//影かどうか
+	//影かどうか判定する
 	double	distance = vec3_mag(vec3_sub(light_vec, crosspoint_vec)) - epsilon;
-	double	*tmp_t = malloc(sizeof(double) * NUMBER);
-	int		tmp_min_index;
-	for(index = 0; index < NUMBER; index++)
-		get_t_value(vec3_add(crosspoint_vec, vec3_mul(incident_vec, epsilon)), incident_vec, object_list, tmp_t, index);
-	tmp_min_index = get_min_index(tmp_t, NUMBER);
-	t_vec3	reflect_normal_vec;
-	if (tmp_t[tmp_min_index] == 0 || distance < vec3_mag(vec3_add(crosspoint_vec, vec3_mul(incident_vec, epsilon + tmp_t[tmp_min_index]))))
+	double	shadow  = check_shadow(crosspoint_vec, incident_vec, epsilon, object_list);
+	t_vec3	reflect_normal_vec;//交点の法線ベクトル
+	if (shadow == 0 || distance < vec3_mag(vec3_add(crosspoint_vec, vec3_mul(incident_vec, epsilon + shadow))))
 	{
-		if (object_list[i].kind == SPHERE)
-			reflect_normal_vec = vec3_normalize(vec3_sub(crosspoint_vec, object_list[i].vec));//法線ベクトル
-		else if (object_list[i].kind == PLAIN)
-			reflect_normal_vec = object_list[i].normal_vec;
-		// else if (object_list[i].kind == CYLINDER)
-		// {
-		// 	t_vec3 bottom_center_vec = vec3_sub(object_list[i].vec, vec3_mul(object_list[i].normal_vec, object_list[i].height / 2));
-		// 	t_vec3 tmp_vec = vec3_sub(camera_vec, bottom_center_vec);
-		// 	if (object_list[i].cylinder_front_or_back == FRONT)
-		// 		reflect_normal_vec = vec3_normalize(vec3_sub(tmp_vec, vec3_mul(object_list[i].normal_vec, vec3_dot(tmp_vec, object_list[i].normal_vec))));
-		// 	else if (object_list[i].cylinder_front_or_back == BACK)
-		// 		reflect_normal_vec = vec3_mul(vec3_normalize(vec3_sub(tmp_vec, vec3_mul(object_list[i].normal_vec, vec3_dot(tmp_vec, object_list[i].normal_vec)))), -1);
-		// }
+		reflect_normal_vec = determin_normal_vec(object_list, crosspoint_vec, i);
 		//拡散反射
-		double dot_1;
-		if (vec3_dot(incident_vec, reflect_normal_vec) < 0)
-			dot_1 = 0;
-		else
-			dot_1 = vec3_dot(incident_vec, reflect_normal_vec);
-		diffusion = dot_1 * object_list[i].material.kDif;
-		new = add_color(new, object_list[i].color, diffusion);
-
+		new = diffusion(incident_vec, reflect_normal_vec, object_list, i, new);
 		// 鏡面反射
-		t_vec3 reverse_dir_vec = vec3_normalize(vec3_mul(dir_vec, -1));//視線ベクトルの逆向き
-		t_vec3 regular_reflection_vec = vec3_normalize(vec3_sub(vec3_mul(vec3_mul(reflect_normal_vec, vec3_dot(incident_vec, reflect_normal_vec)), 2), incident_vec));
-		double dot_2;
-		if (vec3_dot(reverse_dir_vec, regular_reflection_vec) < 0)
-			dot_2 = 0;
-		else
-			dot_2 = vec3_dot(reverse_dir_vec, regular_reflection_vec);
-		specular = pow(dot_2, object_list[i].material.shininess) * object_list[i].material.kSpe;
-		new = add_color(new, light_color, light_power * specular);
+		new = specular(dir_vec, reflect_normal_vec, incident_vec, object_list, new, light_color, light_power, i);
 	}
-
 	if (t[i] > 0)
 		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int((int)new.red, (int)new.green, (int)new.blue));
 	else
 		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int(255, 0, 0));
-	free(tmp_t);
+	free(check_shadow);
 }
 
 t_orthonormal	init_unit(t_vec3 camera_vec, t_vec3 camera_normal_vec)
@@ -260,15 +251,6 @@ int		main_loop(t_game *game)
 	object_list[5].material = material_init(0.69, 0.3, 8);
 	object_list[5].normal_vec = vec3_init(0, 1, 0);
 	object_list[5].kind = PLAIN;
-
-	// //円筒
-	// object_list[6].vec = vec3_init(0, 0, 0);
-	// object_list[6].diameter = 1;
-	// object_list[6].height = 2;
-	// object_list[6].color = rgb_init(130, 130, 130);
-	// object_list[6].material = material_init(0.69, 0.3, 8);
-	// object_list[6].normal_vec = vec3_init(0, 1, 0);
-	// object_list[6].kind = CYLINDER;
 
 	int i;
 	int min_index;
