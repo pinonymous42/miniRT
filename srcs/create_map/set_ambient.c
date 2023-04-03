@@ -6,17 +6,13 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:40:44 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 13:48:55 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/03 15:06:16 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "create_map.h"
-
-
-
-
-
 #include "miniRT.h"
+
 static int check_ambient(t_ambient *ambient)
 {
 	if (ambient->ratio < 0 || 1 < ambient->ratio)

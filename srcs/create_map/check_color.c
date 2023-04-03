@@ -6,11 +6,11 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 16:25:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 12:16:13 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/03 14:04:58 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "color.h"
 
 int check_color(t_fcolor color)
 {

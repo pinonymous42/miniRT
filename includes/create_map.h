@@ -6,14 +6,17 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 08:11:58 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 12:40:40 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/03 15:13:13 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CREATE_MAP_H
 #define CREATE_MAP_H
 
- #include "miniRT.h"
+#include "color.h"
+#include "vector.h"
+#include "util.h"
+#include "miniRT.h"
 //test
 void put_rt(t_rt *rt);
 

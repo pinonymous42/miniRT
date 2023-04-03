@@ -6,7 +6,7 @@
 #    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/02 14:58:16 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/03 15:16:46 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +31,13 @@ INCLUDES		:=	$(addprefix -I , $(HEADERS))
 
 SOURCES :=	main.c
 # create_map
-SRC_FILE := create_map.c set_ambient.c set_camera.c set_color.c set_light.c set_vec.c create_object.c check_color.c check_vec.c
-SRC_FILE += util.c
+SRC_FILE := create_map.c \
+			set_ambient.c set_camera.c set_color.c set_light.c set_vec.c create_object.c \
+			check_color.c check_vec.c
 SOURCES += $(addprefix create_map/, $(SRC_FILE))
 
 #util 
-SRC_FILE := color_util.c material_util.c mlx_util.c vec_util.c
+SRC_FILE := color_util.c material_util.c mlx_util.c vec_util.c free_util.c
 SOURCES += $(addprefix util/, $(SRC_FILE))
 
 

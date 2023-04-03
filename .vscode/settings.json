@@ -8,6 +8,9 @@
 		"libft.h": "c",
 		"stdlib.h": "c",
 		"combination.h": "c",
-		"material.h": "c"
+		"material.h": "c",
+		"color.h": "c",
+		"vector.h": "c",
+		"create_map.h": "c"
 	}
 }
