@@ -14,7 +14,7 @@ NAME		:=	miniRT
 OBJ_DIR		:=	./obj
 SRC_DIR		:=	./srcs
 CC			:=	cc
-#CFLAGS		:=	-Wall -Werror -Wextra
+CFLAGS		:=	-Wall -Werror -Wextra
 CFLAGS  	+=  -fsanitize=address -g
 
 HEADERS			:=  ./includes

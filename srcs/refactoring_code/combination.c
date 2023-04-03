@@ -14,21 +14,21 @@
 
 void	get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_objects *object_list, double *t, int i)//交差判定
 {
-	t_vec3 camera2sp_vec = vec3_sub(start_vec, object_list[i].vec); //カメラから球へのベクトル
+	//t_vec3 camera2sp_vec = vec3_sub(start_vec, object_list[i].vec); //カメラから球へのベクトル
 	double a;
 	double b;
 	double c;
 	double t1, t2;
-	t_vec3	bottom_center_vec;
+	//t_vec3	bottom_center_vec;
 	if (object_list[i].kind == sp)
 	{
-		if (object_list[i].kind == sp)
-		{
+		//if (object_list[i].kind == sp)
+		//{
 			t_vec3 camera2sp_vec = vec3_sub(start_vec, object_list[i].vec); //カメラから球へのベクトル
 			a = vec3_mag(dir_vec) * vec3_mag(dir_vec);
 			b = 2 * vec3_dot(camera2sp_vec, dir_vec);
 			c = vec3_dot(camera2sp_vec, camera2sp_vec) - object_list[i].diameter * object_list[i].diameter;
-		}
+		//}
 		// 判別式
 		double D = b * b - 4 * a * c;
 		if (D >= 0)
@@ -123,6 +123,7 @@ t_vec3	determin_normal_vec(t_objects *object_list, t_vec3 crosspoint_vec, int i)
 {
 	t_vec3	normal_vec;
 
+	normal_vec = vec3_init(1, 1, 1);
 	if (object_list[i].kind == sp)
 		normal_vec = vec3_normalize(vec3_sub(crosspoint_vec, object_list[i].vec));//法線ベクトル
 	else if (object_list[i].kind == pl)
@@ -162,8 +163,8 @@ void	my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_objects
 			int i, double light_power, double ambient_power, t_game *game, double x, double y, double epsilon,
 			t_fcolor light_color, t_fcolor ambient_color)
 {
-	int	index;
-	t_fcolor shade = rgb_init(255, 255, 255);
+	//int	index;
+	//t_fcolor shade = rgb_init(255, 255, 255);
 	t_fcolor new = rgb_init(0, 0, 0);
 	t_vec3 crosspoint_vec = vec3_add(camera_vec, vec3_mul(dir_vec, t[i]));//視線と物体の交点の位置ベクトル
 	t_vec3 incident_vec = vec3_normalize(vec3_sub(light_vec, crosspoint_vec));//入射ベクトル(入射って言ってるけど、向きに注意)
@@ -185,10 +186,11 @@ void	my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_objects
 		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int((int)new.red, (int)new.green, (int)new.blue));
 	else
 		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int(255, 0, 0));
-	free(check_shadow);
+	//free(check_shadow);
 }
 
-t_orthonormal	init_unit(t_vec3 camera_vec, t_vec3 camera_normal_vec)
+//t_orthonormal	init_unit(t_vec3 camera_vec, t_vec3 camera_normal_vec)
+t_orthonormal	init_unit(t_vec3 camera_normal_vec)
 {
 	t_orthonormal	ret;
 
@@ -205,7 +207,8 @@ int		main_loop(t_game *game)
 	double epsilon = 1.0 / 512; //微小距離
 	t_vec3 camera_vec = vec3_init(10, 10, -10); //視点位置のベクトル
 	t_vec3 camera_normal_vec = vec3_normalize(vec3_init(-9, -10, 25)); //視点位置の法線ベクトル
-	t_orthonormal screen_unit_vec = init_unit(camera_vec, camera_normal_vec);
+	//t_orthonormal screen_unit_vec = init_unit(camera_vec, camera_normal_vec); 使用していない
+	t_orthonormal screen_unit_vec = init_unit(camera_normal_vec);
 	double light_power = 1.0;
 	t_fcolor light_color = rgb_init(255, 255, 255);
 	double ambient_power = 0.1;
@@ -252,7 +255,7 @@ int		main_loop(t_game *game)
 	object_list[5].color = rgb_init(0, 255, 255);
 	object_list[5].material = material_init(0.69, 0.3, 8);
 	object_list[5].normal_vec = vec3_init(0, 1, 0);
-	object_list[5].kind = PLAIN;
+	object_list[5].kind = pl;
 
 	int i;
 	int min_index;
