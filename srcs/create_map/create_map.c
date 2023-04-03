@@ -6,10 +6,11 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:37:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 09:15:15 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/03 15:08:38 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "miniRT.h"
 #include "create_map.h"
 #include <stdio.h>
 #include <fcntl.h>
@@ -70,11 +71,11 @@ int create_map(char *filename, t_rt *rt)
 	}
 	if (parse_map(fd, rt))
 	{
-		write (1, "ERROR\n", 7);
-		//delete_rt(rt);
+		ft_putendl_fd("ERROR", 2);
+		// delete_rt(rt);
 		close(fd);
 		return (1);
 	}
-	close (fd);
+	close(fd);
 	return (0);
 }

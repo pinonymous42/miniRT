@@ -6,9 +6,14 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:24:27 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 11:27:54 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/02 14:31:32 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+#include "key_code.h"
+#include "mlx_info.h"
+#include "miniRT.h"
 
 int		deal_key(int key_code, t_game *game)
 {

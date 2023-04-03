@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:42:22 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 11:56:03 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/02 14:47:44 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,8 @@ typedef struct	s_game
 	void	*mlx;
 	void	*win;
 }				t_game;
+
+int		deal_key(int key_code, t_game *game);
+int 	window_close(t_game *game);
 
 #endif

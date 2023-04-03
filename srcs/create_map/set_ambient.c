@@ -6,11 +6,12 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:40:44 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 08:56:17 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/03 15:06:16 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "create_map.h"
+#include "miniRT.h"
 
 static int check_ambient(t_ambient *ambient)
 {
