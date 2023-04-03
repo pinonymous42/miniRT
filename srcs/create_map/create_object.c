@@ -11,11 +11,9 @@
 /* ************************************************************************** */
 
 #include "create_map.h"
-
-
-
-
 #include "miniRT.h"
+#include "libft.h"
+#include "object.h"
 
 static int check_cylinder(char **argv, t_cylinder *cylinder)
 {
@@ -69,8 +67,8 @@ static t_cylinder *set_cylinder(char **argv)
 		return (NULL);
 	cylinder->center = set_vec3(argv[0]);
 	cylinder->normalized = set_vec3(argv[1]);
-	cylinder->diameter = atof(argv[2]);
-	cylinder->height = atof(argv[3]);
+	cylinder->diameter = ft_atof(argv[2]);
+	cylinder->height =ft_atof(argv[3]);
 	cylinder->color = set_color(argv[4]);
 	if (check_cylinder(argv, cylinder))
 	{
