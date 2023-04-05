@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:37:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/03 15:08:38 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/03 16:15:35 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,13 @@ static int parse_map(int fd, t_rt *rt)
 	char *line;
 	char **elements;
 
-	line = get_next_line(fd);
-	while (line)
+	while (1)
 	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
 		if (*line && *line == '\n')
-		{
-			line = get_next_line(fd);
 			continue;
-		}
 		elements = ft_split_space(line);
 		free(line);
 		if (!elements)
@@ -55,7 +54,6 @@ static int parse_map(int fd, t_rt *rt)
 		if (set_element(elements, rt))
 			return (1);
 		free_args(elements);
-		line = get_next_line(fd);
 	}
 	return (0);
 }

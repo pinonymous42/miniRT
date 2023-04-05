@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 14:19:33 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 14:24:52 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/03 16:11:32 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #define COLOR_H
 
 typedef struct s_fcolor {
-    double     red;
-    double     green;
-    double     blue;
+    int     red;
+    int     green;
+    int     blue;
 }               t_fcolor;
 
 t_fcolor	rgb_init(int r, int g, int b);

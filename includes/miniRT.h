@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 04:02:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/03 14:56:00 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/03 16:01:38 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "vector.h"
 #include "color.h"
 #include "object.h"
+#include "mlx_info.h"
 
 // A Ambient lightning
 typedef struct s_ambient
@@ -43,8 +44,7 @@ typedef struct s_light
 
 typedef struct s_rt
 {
-	void *mlx; // minilibx特有のやつ
-	void *win; // minilibxのウィンドウを指すポインタ
+	t_game game;
 	int screen_width;
 	int screen_height;
 	t_camera *camera;  // カメラのリスト

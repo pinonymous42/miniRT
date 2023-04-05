@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:17:39 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/03 15:07:55 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/03 15:58:41 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "color.h"
 #include "mlx_info.h"
 #include "material.h"
+#include "miniRT.h"
 
 typedef struct s_objects
 {
@@ -37,4 +38,4 @@ void get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_objects *object_list, doubl
 int deal_key(int key_code, t_game *game);
 int window_close(t_game *game);
 
-int main_loop(t_game *game);
+int main_loop(t_rt *rt);

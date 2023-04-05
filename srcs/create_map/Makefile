@@ -6,7 +6,7 @@
 #    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/02 13:53:23 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/03 16:33:33 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,10 @@ HEADERS			+=	$(LIBFT_DIR)/includes
 INCLUDES		:=	$(addprefix -I , $(HEADERS))
 
 SOURCES :=	main.c
-SRC_FILE := create_map.c set_ambient.c set_camera.c set_color.c set_light.c set_vec.c create_object.c check_color.c check_vec.c
-SRC_FILE += util.c
-SRC_FILE += leakdetect.c
+SRC_FILE += create_map.c set_ambient.c set_camera.c set_color.c set_light.c set_vec.c create_object.c check_color.c check_vec.c
 SOURCES += $(SRC_FILE)
+SRC_FILE := free_util.c color_util.c vec_util.c
+SOURCES += $(addprefix util/, $(SRC_FILE))
 
 OBJECTS	:= $(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
 RM := rm -f
