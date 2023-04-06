@@ -20,7 +20,7 @@ int sphere_t_val(t_vec3 start_vec, t_vec3 dir_vec,t_objects *object_list)
 	int t1, t2;
 	double a = vec3_mag(dir_vec) * vec3_mag(dir_vec);
 	double b = 2 * vec3_dot(camera2sp_vec, dir_vec);
-	double c = vec3_dot(camera2sp_vec, camera2sp_vec) - object_list->diameter * object_list->diameter;
+	double c = vec3_dot(camera2sp_vec, camera2sp_vec) - pow(object_list->diameter, 2);
 	// 判別式
 	double D = b * b - 4 * a * c;
 	if (D >= 0)
@@ -51,6 +51,27 @@ int sphere_t_val(t_vec3 start_vec, t_vec3 dir_vec,t_objects *object_list)
 		}
 	}
 	return(0);
+}
+
+int cylinder_t_val(t_vec3 O, t_vec3 dir_vec)
+{
+	double diameter = 10.0;
+	double r = diameter / 2;
+	t_vec3 d = vec3_init(1, 1, 1);
+	t_vec3 n = vec3_init(10, 10, 10);
+	t_vec3 x = vec3_init(10, 10, 10);
+	double a = vec3_dot(d, d) - pow(vec3_dot(d, v), 2);
+	double c = vec3_dot(x, x) - pow(vec3_dot(x,v), 2) - pow (r, 2);
+	double b = ((vec3_dot(d, x)) - vec3_dot(d, v) * vec3_dot(x, v)) * 2;
+	double D = b * b - 4 * a * c;
+	if (a == 0)
+		return (0);
+	else if (D < 0)
+		return (0);
+	double t1 = (-b - sqrt(D)) / (2 * a);
+	double t2 = (-b + sqrt(D)) / (2 * a);
+
+
 }
 
 void get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_objects *object_list, double *t, int i) // 交差判定
@@ -230,8 +251,9 @@ int main_loop(t_rt *rt)
 	object_list[2].kind = sp;
 
 	// 4個目の球
-	object_list[3].vec = vec3_init(2, 0, 20); // 球の中心座標
+	object_list[3].vec = vec3_init(3, 0, 25); // 中心座標
 	object_list[3].diameter = 1.0;			  // 球の直径
+	object_list[3].height = 10.0;			  // 球の直径
 	object_list[3].color = rgb_init(255, 0, 255);
 	object_list[3].material = material_init(0.69, 0.3, 8);
 	object_list[3].kind = sp;

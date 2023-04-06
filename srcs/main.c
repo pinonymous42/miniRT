@@ -21,6 +21,7 @@ void init_rt(t_rt *rt)
 void delete_rt(t_rt *rt)
 {
 	t_list *next;
+	t_object *tmp;
 
 	if (rt->camera)
 		free(rt->camera);
@@ -29,6 +30,8 @@ void delete_rt(t_rt *rt)
 	while (rt->objects)
 	{
 		next = rt->objects->next;
+		tmp = (t_object *)rt->objects->content;
+		free(tmp->object);
 		free(rt->objects->content);
 		free(rt->objects);
 		rt->objects = next;
@@ -99,7 +102,7 @@ int main(int argc, char *argv[])
 
 	if (argc != 2)
 	{
-		ft_putendl_fd("Usage : ./miniRT fail.rt", 2);
+		ft_putendl_fd("Usage : ./miniRT .rt", 2);
 		return (1);
 	}
 	init_rt(&rt);
@@ -109,9 +112,14 @@ int main(int argc, char *argv[])
 	rt.game.win = mlx_new_window(rt.game.mlx, WIDTH, HEIGHT, "miniRT");
 	mlx_hook(rt.game.win, X_EVENT_KEY_PRESS, 1, &deal_key, &rt.game);
 	mlx_hook(rt.game.win, X_EVENT_KEY_EXIT, 1, &window_close, &rt.game);
-	//mlx_loop_hook(rt.game.mlx, &main_loop, &rt);
+	mlx_loop_hook(rt.game.mlx, &main_loop, &rt);
 	main_loop(&rt);
 	mlx_loop(rt.game.mlx);
 	delete_rt(&rt);
 	return (0);
+}
+
+__attribute__((destructor))
+ static void destructor() {
+    system("leaks -q miniRT");
 }

@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:10:36 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/03 15:53:40 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/04 18:42:33 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 
 void free_args(char **args)
 {
+	size_t i;
+
+	i = 0;
 	if (!args)
 		return;
-	while (*args)
-	{
-		if (*args)
-			free(*args);
-		*args = NULL;
-		args++;
-	}
-	args = NULL;
+	while (args[i])
+		free(args[i++]);
+	free(args);
 }

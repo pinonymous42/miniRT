@@ -6,7 +6,7 @@
 #    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/03 15:16:46 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/04 18:28:00 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ OBJ_DIR		:=	./obj
 SRC_DIR		:=	./srcs
 CC			:=	cc
 CFLAGS		:=	-Wall -Werror -Wextra
-CFLAGS  	+=  -fsanitize=address -g
+#CFLAGS  	+=  -fsanitize=address -g
 
 HEADERS			:=  ./includes
 LIBFT_DIR		:=	./lib/libft
