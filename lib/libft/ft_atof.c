@@ -6,17 +6,17 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 14:45:33 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 08:46:57 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/08 14:44:25 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-double ft_atof(const char *str)
+double	ft_atof(const char *str)
 {
-	int sign;
-	double res;
-	double digit;
+	int		sign;
+	double	res;
+	double	digit;
 
 	while (ft_isspace(*str))
 		str++;

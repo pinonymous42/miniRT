@@ -6,7 +6,7 @@
 #    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/04 18:28:00 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/10 02:03:07 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ OBJ_DIR		:=	./obj
 SRC_DIR		:=	./srcs
 CC			:=	cc
 CFLAGS		:=	-Wall -Werror -Wextra
-#CFLAGS  	+=  -fsanitize=address -g
+CFLAGS  	+=  -fsanitize=address -g
 
 HEADERS			:=  ./includes
 LIBFT_DIR		:=	./lib/libft
@@ -40,8 +40,8 @@ SOURCES += $(addprefix create_map/, $(SRC_FILE))
 SRC_FILE := color_util.c material_util.c mlx_util.c vec_util.c free_util.c
 SOURCES += $(addprefix util/, $(SRC_FILE))
 
-
-SRC_FILE := combination.c
+SRC_FILE := comb_v2.c get_t_val.c determin_normal_vec.c
+#SRC_FILE := comv_v0.c
 SOURCES += $(addprefix refactoring_code/, $(SRC_FILE))
 OBJECTS	:= $(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
 RM := rm -f

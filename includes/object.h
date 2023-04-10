@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:08:11 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/03 14:56:08 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/09 13:45:07 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ typedef struct s_cylinder
 	double diameter;
 	double height;
 	t_fcolor color;
+	int		front;
 } t_cylinder;
 
 typedef struct s_object
 {
 	void *object;
 	int type;
+	double t;
 } t_object;
 
 #endif

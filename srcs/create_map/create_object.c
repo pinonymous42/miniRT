@@ -70,6 +70,7 @@ static t_cylinder *set_cylinder(char **argv)
 	cylinder->diameter = ft_atof(argv[2]);
 	cylinder->height =ft_atof(argv[3]);
 	cylinder->color = set_color(argv[4]);
+	cylinder->front = NOTHING;
 	if (check_cylinder(argv, cylinder))
 	{
 		free (cylinder);

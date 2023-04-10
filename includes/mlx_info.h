@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:42:22 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/03 17:37:34 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/08 15:17:16 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 #define WIDTH 512
 #define HEIGHT 512
 
-#define SPHERE 1
-#define PLAIN 2
-#define CYLINDER 3
+#define SPHERE 0
+#define PLANE 1
+#define CYLINDER 2
 
 #define NOTHING 0
 #define FRONT 1

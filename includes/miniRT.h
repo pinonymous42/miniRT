@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 04:02:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/03 16:01:38 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/10 10:35:01 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,7 @@ typedef struct s_rt
 } t_rt;
 
 int create_map(char *filename, t_rt *rt);
-
+int draw_miniRT(t_rt* rt);
+t_vec3 determin_normal_vec(t_rt *rt, t_object *object, t_vec3 crosspoint_vec, t_vec3 dir_vec, double min);
+double get_t_val(t_object *object, t_vec3 start_vec, t_vec3 dir_vec, int shadow);
 #endif

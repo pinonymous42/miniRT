@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 21:18:42 by asanotomoki       #+#    #+#             */
-/*   Updated: 2023/03/30 06:08:28 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/08 14:44:07 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ size_t	ft_get_size(char const *s, char c)
 		if (s[i] != c)
 		{
 			count++;
-			while (s[i]&& s[i] != c)
+			while (s[i] && s[i] != c)
 				i++;
 		}
 		while (s[i] && s[i] == c)

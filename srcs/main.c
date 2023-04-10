@@ -112,14 +112,15 @@ int main(int argc, char *argv[])
 	rt.game.win = mlx_new_window(rt.game.mlx, WIDTH, HEIGHT, "miniRT");
 	mlx_hook(rt.game.win, X_EVENT_KEY_PRESS, 1, &deal_key, &rt.game);
 	mlx_hook(rt.game.win, X_EVENT_KEY_EXIT, 1, &window_close, &rt.game);
-	mlx_loop_hook(rt.game.mlx, &main_loop, &rt);
-	main_loop(&rt);
+	//main_loop(&rt.game);
+	draw_miniRT(&rt);
 	mlx_loop(rt.game.mlx);
+	
 	delete_rt(&rt);
 	return (0);
 }
 
-__attribute__((destructor))
- static void destructor() {
-    system("leaks -q miniRT");
-}
+//__attribute__((destructor))
+// static void destructor() {
+//    system("leaks -q miniRT");
+//}
