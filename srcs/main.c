@@ -22,7 +22,6 @@ void delete_rt(t_rt *rt)
 {
 	t_list *next;
 	t_object *tmp;
-
 	if (rt->camera)
 		free(rt->camera);
 	if (rt->light)
@@ -112,15 +111,14 @@ int main(int argc, char *argv[])
 	rt.game.win = mlx_new_window(rt.game.mlx, WIDTH, HEIGHT, "miniRT");
 	mlx_hook(rt.game.win, X_EVENT_KEY_PRESS, 1, &deal_key, &rt.game);
 	mlx_hook(rt.game.win, X_EVENT_KEY_EXIT, 1, &window_close, &rt.game);
-	//main_loop(&rt.game);
 	draw_miniRT(&rt);
-	mlx_loop(rt.game.mlx);
+	//mlx_loop(rt.game.mlx);
 	
 	delete_rt(&rt);
 	return (0);
 }
 
-//__attribute__((destructor))
-// static void destructor() {
-//    system("leaks -q miniRT");
-//}
+__attribute__((destructor))
+ static void destructor() {
+    system("leaks -q miniRT");
+}

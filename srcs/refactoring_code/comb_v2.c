@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 14:45:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/13 23:48:33 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/13 23:54:28 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,6 @@ void my_put_pixel(t_rt *rt, t_object *min_object, t_vec3 dir_vec, int x, int y)
 	double distance = vec3_mag(vec3_sub(rt->light->point, crosspoint_vec)) - epsilon;
 	double shadow = 0;
 	shadow = check_shadow(crosspoint_vec, incident_vec, epsilon, rt->objects);
-	if (shadow)
-		printf("%f\n", shadow);
 	t_vec3 reflect_normal_vec;
 	if (shadow == 0 || distance < vec3_mag(vec3_add(crosspoint_vec, vec3_mul(incident_vec, epsilon + shadow))))
 	{

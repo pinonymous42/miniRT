@@ -229,7 +229,7 @@ void my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_objects
 	double shadow = 0;
 	shadow = check_shadow(crosspoint_vec, incident_vec, epsilon, object_list);
 	if (shadow)
-		printf(shadow);
+		printf(""shadow);
 	// if (shadow != 0)
 	//	printf("shadow: %f\n", shadow);
 	//  if (object_list[i].kind == CYLINDER)
