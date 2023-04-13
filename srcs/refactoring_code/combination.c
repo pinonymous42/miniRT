@@ -204,6 +204,8 @@ t_vec3 determin_normal_vec(t_objects *object_list, t_vec3 crosspoint_vec, int i,
 		{
 			normal_vec = vec3_mul(vec3_normalize(vec3_sub(tmp_vec, vec3_mul(object_list[i].normal_vec, vec3_dot(tmp_vec, object_list[i].normal_vec)))), -1);
 		}
+		else
+			printf("else\n");
 	}
 	return (normal_vec);
 }
@@ -242,6 +244,7 @@ void my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_object 
 				  t_fcolor light_color, t_fcolor ambient_color)
 {
 	t_fcolor new = rgb_init(0, 0, 0);
+	if (object_)
 	t_vec3 crosspoint_vec = vec3_add(camera_vec, vec3_mul(dir_vec, t[i]));	   // 視線と物体の交点の位置ベクトル
 	t_vec3 incident_vec = vec3_normalize(vec3_sub(light_vec, crosspoint_vec)); // 入射ベクトル(入射って言ってるけど、向きに注意)
 
@@ -259,7 +262,7 @@ void my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_object 
 		new = specular(dir_vec, reflect_normal_vec, incident_vec, object, new, light_color, light_power, i);
 	}
 	if (t[i] > 0)
-		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int((int)new.red, (int)new.green, (int)new.blue));
+		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int(new.red, new.green, new.blue));
 	else
 		mlx_pixel_put(game->mlx, game->win, x, y, rgb_to_int(255, 255, 255));
 }

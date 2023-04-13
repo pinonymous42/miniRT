@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 14:27:53 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/10 10:52:58 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/13 23:25:13 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,18 @@ t_vec3 determin_normal_vec_cylinder(t_vec3 dir_vec, t_camera *camera, t_cylinder
 	t_vec3 normal_vec;
 
 	t_vec3 tmp_vec = vec3_sub(vec3_add(camera->point, vec3_mul(dir_vec, t)), cylinder->center);
+	normal_vec = vec3_init(0, 0, 0);
 	if (cylinder->front == FRONT)
 		normal_vec = vec3_normalize(vec3_sub(tmp_vec, vec3_mul(cylinder->normalized, vec3_dot(tmp_vec, cylinder->normalized))));
 	else if (cylinder->front == BACK)
 		normal_vec = vec3_mul(vec3_normalize(vec3_sub(tmp_vec, vec3_mul(cylinder->normalized, vec3_dot(tmp_vec, cylinder->normalized)))), -1);
-	else
-		normal_vec = vec3_init(1, 1, 1);
 	return (normal_vec);
 }
 
 t_vec3 determin_normal_vec(t_rt *rt, t_object *object, t_vec3 crosspoint_vec, t_vec3 dir_vec, double min)
 {
-	t_vec3 normal_vec = vec3_init(1, 1, 1);
-
+	t_vec3 normal_vec = vec3_init(0, 0, 0);
+	
 	if (object->type == SPHERE)
 		normal_vec = determin_normal_vec_sphere((t_sphere *)object->object, crosspoint_vec);
 	else if (object->type == PLANE)

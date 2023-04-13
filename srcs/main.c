@@ -52,7 +52,7 @@ void put_rt(t_rt *rt)
 		light = (t_light *)rt->light;
 		printf("point : %f,%f,%f\n", light->point.x, light->point.y, light->point.z);
 		printf("radio : %f\n", light->ratio);
-		printf("color : %d,%d,%d\n", light->color.red, light->color.green, light->color.blue);
+		printf("color :%f %f %f\n", light->color.red, light->color.green, light->color.blue);
 
 	printf("------------------ object ------------------\n");
 	t_sphere *sphere;
@@ -68,7 +68,7 @@ void put_rt(t_rt *rt)
 			printf("--------- sphere ---------\n");
 			printf("center : %f,%f,%f\n", sphere->center.x, sphere->center.y, sphere->center.z);
 			printf("diameter : %f\n", sphere->diameter);
-			printf("color : %d,%d,%d\n", sphere->color.red, sphere->color.green, sphere->color.blue);
+			printf("color : %f %f %f\n", sphere->color.red, sphere->color.green, sphere->color.blue);
 			printf("--------------------------\n");
 		}
 		else if (object->type == pl)
@@ -77,7 +77,7 @@ void put_rt(t_rt *rt)
 			printf("--------- plane ---------\n");
 			printf("point : %f,%f,%f\n", plane->point.x, plane->point.y, plane->point.z);
 			printf("normalized : %f,%f,%f\n", plane->normalized.x, plane->normalized.y, plane->normalized.z);
-			printf("color : %d,%d,%d\n", plane->color.red, plane->color.green, plane->color.blue);
+			printf("color : %f %f %f\n", plane->color.red, plane->color.green, plane->color.blue);
 			printf("--------------------------\n");
 		}
 		else if (object->type == cy)
@@ -88,7 +88,7 @@ void put_rt(t_rt *rt)
 			printf("normalized : %f,%f,%f\n", cylinder->normalized.x, cylinder->normalized.y, cylinder->normalized.z);
 			printf("diameter : %f\n", cylinder->diameter);
 			printf("height : %f\n", cylinder->height);
-			printf("color : %d,%d,%d\n", cylinder->color.red, cylinder->color.green, cylinder->color.blue);
+			printf("color : %f %f %f\n", cylinder->color.red, cylinder->color.green, cylinder->color.blue);
 			printf("----------------------------\n");
 		}
 		rt->objects = rt->objects->next;

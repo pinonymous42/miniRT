@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 14:45:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/10 12:21:14 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/13 23:48:33 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@
 #include "mlx_info.h"
 #include "vector.h"
 #include "color.h"
-#include <limits.h>
-// #include "material.h"
 #include "object.h"
-#include "combination.h"
 #include <math.h>
+
+
+typedef struct s_orthonormal
+{
+	t_vec3 x_unit_vector;
+	t_vec3 y_unit_vector;
+} t_orthonormal;
+
 
 t_orthonormal init_unit(t_vec3 camera_normal_vec)
 {
@@ -44,7 +49,11 @@ t_vec3 get_dir_vec(double x, double y, t_rt *rt)
 	f_x = 2 * x / WIDTH - 1.0;
 	f_y = -(2 * y / HEIGHT - 1.0);
 
-	screen_vec = vec3_add(vec3_add(vec3_add(rt->camera->point, vec3_mul(rt->camera->normalized, camera2screen)), vec3_mul(screen_unit_vec.x_unit_vector, f_x)), vec3_mul(screen_unit_vec.y_unit_vector, f_y)); // スクリーン上の点の三次元空間におけるベクトル
+	screen_vec = vec3_add(\
+	vec3_add(vec3_add(rt->camera->point,\
+	vec3_mul(rt->camera->normalized, camera2screen)), \
+	vec3_mul(screen_unit_vec.x_unit_vector, f_x)), \
+	vec3_mul(screen_unit_vec.y_unit_vector, f_y)); // スクリーン上の点の三次元空間におけるベクトル
 	return (vec3_normalize(vec3_sub(screen_vec, rt->camera->point)));
 }
 
@@ -83,27 +92,25 @@ t_object *get_min_object(t_list *lst)
 
 t_fcolor diffusion(t_vec3 incident_vec, t_vec3 reflect_normal_vec, t_object *object, t_fcolor new)
 {
-	double diffusion = 0;
+	double diffusion;
 	double dot_1;
-	if (vec3_dot(incident_vec, reflect_normal_vec) <= 0)
+
+	dot_1 = vec3_dot(incident_vec, reflect_normal_vec);
+	if (dot_1 <= 0)
 		dot_1 = 0;
-	else
-		dot_1 = vec3_dot(incident_vec, reflect_normal_vec);
+	diffusion = dot_1 * 0.69;
 	if (object->type == SPHERE)
 	{
-		diffusion = dot_1 * 0.69;
 		t_sphere *content = object->object;
 		return (add_color(new, content->color, diffusion));
 	}
 	else if (object->type == PLANE)
 	{
-		diffusion = dot_1 * 0;
 		t_plane *content = object->object;
 		return (add_color(new, content->color, diffusion));
 	}
 	else
 	{
-		diffusion = dot_1 * 0.69;
 		t_cylinder *content = object->object;
 		return (add_color(new, content->color, diffusion));
 	}
@@ -146,39 +153,39 @@ double	check_shadow(t_vec3 crosspoint_vec, t_vec3 incident_vec, double epsilon, 
 void my_put_pixel(t_rt *rt, t_object *min_object, t_vec3 dir_vec, int x, int y)
 {
 	double epsilon = 1.0 / 512;
-	t_fcolor new = rgb_init(0, 0, 0);
-	t_vec3 crosspoint_vec = vec3_add(rt->camera->point, vec3_mul(dir_vec, min_object->t)); // 視線と物体の交点の位置ベクトル
-	t_vec3 incident_vec = vec3_normalize(vec3_sub(rt->light->point, crosspoint_vec));	   // 入射ベクトル(入射って言ってるけど、向きに注意)
 	double	min = min_object->t;
+	t_fcolor new = rgb_init(0, 0, 0);
+	t_vec3 crosspoint_vec = vec3_add(rt->camera->point, vec3_mul(dir_vec, min)); // 視線と物体の交点の位置ベクトル
+	t_vec3 incident_vec = vec3_normalize(vec3_sub(rt->light->point, crosspoint_vec));	   // 入射ベクトル(入射って言ってるけど、向きに注意)
 	new = add_color(new, rt->ambient.color, rt->ambient.ratio);
 
 	// 影かどうか
 	double distance = vec3_mag(vec3_sub(rt->light->point, crosspoint_vec)) - epsilon;
 	double shadow = 0;
 	shadow = check_shadow(crosspoint_vec, incident_vec, epsilon, rt->objects);
+	if (shadow)
+		printf("%f\n", shadow);
 	t_vec3 reflect_normal_vec;
 	if (shadow == 0 || distance < vec3_mag(vec3_add(crosspoint_vec, vec3_mul(incident_vec, epsilon + shadow))))
 	{
 		reflect_normal_vec = determin_normal_vec(rt, min_object, crosspoint_vec, dir_vec, min);
 		new = diffusion(incident_vec, reflect_normal_vec, min_object, new);
-		//new = specular(dir_vec, reflect_normal_vec, incident_vec, new, rt->light->color, rt->light->ratio);
+		new = specular(dir_vec, reflect_normal_vec, incident_vec, new, rt->light->color, rt->light->ratio);
 	}
 	if (min > 0)
 		mlx_pixel_put(rt->game.mlx, rt->game.win, x, y, rgb_to_int(new.red, new.green, new.blue));
 	else
 		mlx_pixel_put(rt->game.mlx, rt->game.win, x, y, rgb_to_int(255, 255, 255));
 }
+
 int draw(t_rt *rt, double x, double y)
 {
 	t_vec3 dir_vec;
-
-	rt->camera->normalized = vec3_normalize(rt->camera->normalized); //視点位置の法線ベクトル
-
-	dir_vec = get_dir_vec(x, y, rt);
-
 	t_list *tmp_lst;
 	t_object *tmp;
 
+
+	dir_vec = get_dir_vec(x, y, rt);
 	tmp_lst = rt->objects;
 	while (tmp_lst)
 	{
@@ -197,6 +204,8 @@ int draw_miniRT(t_rt *rt)
 	double y;
 
 	y = -1;
+	rt->camera->normalized = vec3_normalize(rt->camera->normalized); //視点位置の法線ベクトル
+	
 	while (++y < HEIGHT)
 	{
 		x = -1;

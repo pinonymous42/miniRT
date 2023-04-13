@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 16:27:27 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/09 23:05:33 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/13 23:53:18 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,28 @@ double get_t_val_sphere(t_sphere *sphere, t_vec3 start_vec, t_vec3 dir_vec)
 	b = 2 * vec3_dot(camera2sphere_vec, dir_vec);
 	c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - sphere->diameter * sphere->diameter;
 	d = b * b - 4 * a * c;
-	if (a == 0 && d < 0)
-		return (0);
-	if (d == 0)
-		return (-b / (2 * a));
-	t1 = (-b + sqrt(d)) / (2 * a);
-	t2 = (-b - sqrt(d)) / (2 * a);
-	if (t1 < 0 && t2 < 0)
+	if (a != 0 && d >= 0)
 	{
-		if (t1 > t2)
-			return (t2);
-		else
-			return (t1);
+		if (d == 0)
+			return (-b / (2.0 * a));
+		t1 = (-b - sqrt(d)) / (2 * a);
+		t2 = (-b + sqrt(d)) / (2 * a);
+		if (0 < t1 && 0 < t2)
+		{
+			if (t1 < t2)
+				return (t1);
+			else
+				return (t2);
+		}
+		else if (t1 > 0 || t2 > 0)
+		{
+			if (t1 > t2)
+				return (t1);
+			else
+				return (t2);
+		}
 	}
-	else
-	{
-		if (t1 > 0)
-			return (t1);
-		else if (t2 > 0)
-			return (t2);
-		return (0);
-	}
+	return (0);
 }
 
 double get_t_val_cylinder(t_cylinder *cylinder, t_vec3 start_vec, t_vec3 dir_vec, int shadow)
@@ -75,34 +76,32 @@ double get_t_val_cylinder(t_cylinder *cylinder, t_vec3 start_vec, t_vec3 dir_vec
 	t_vec3 tmp_vec_and_cross = vec3_cross(tmp_vec, cylinder->normalized);
 	a = vec3_mag(tmp_cross) * vec3_mag(tmp_cross);
 	b = 2 * vec3_dot(tmp_cross, tmp_vec_and_cross);
-	c = vec3_mag(tmp_vec_and_cross) * vec3_mag(tmp_vec_and_cross) - cylinder->diameter * cylinder->diameter;
+	c = vec3_mag(tmp_vec_and_cross) * vec3_mag(tmp_vec_and_cross) - pow(cylinder->diameter, 2);
 	d = b * b - 4 * a * c;
-	if (a == 0 && d < 0)
-		return (0);
-	if (d == 0)
-		return (-b / (2 * a));
-	t1 = (-b + sqrt(d)) / (2 * a);
-	t2 = (-b - sqrt(d)) / (2 * a);
-	double compare1 = vec3_dot(vec3_sub(vec3_add(start_vec, vec3_mul(dir_vec, t1)), cylinder->center), cylinder->normalized);
-	double compare2 = vec3_dot(vec3_sub(vec3_add(start_vec, vec3_mul(dir_vec, t2)), cylinder->center), cylinder->normalized);
-	if (0 <= compare1 && compare1 <= cylinder->height && t1 > 0)
+	if (a != 0 && d >= 0)
 	{
-		if (shadow)
-			cylinder->front = FRONT;
-		return (t1);
-	}
-	else if (0 <= compare2 && compare2 <= cylinder->height && t2 > 0)
-	{
-		if (shadow)
-			cylinder->front = BACK;
-		return (t2);
-	}
-	else
-	{
-		if (shadow)
+		if (d == 0)
+			return (-b / (2 * a));
+		t1 = (-b - sqrt(d)) / (2 * a);
+		t2 = (-b + sqrt(d)) / (2 * a);
+		double compare1 = vec3_dot(vec3_sub(vec3_add(start_vec, vec3_mul(dir_vec, t1)), cylinder->center), cylinder->normalized);
+		double compare2 = vec3_dot(vec3_sub(vec3_add(start_vec, vec3_mul(dir_vec, t2)), cylinder->center), cylinder->normalized);
+		if (0 <= compare1 && compare1 <= cylinder->height && t1 > 0)
+		{
+			if (shadow)
+				cylinder->front = FRONT;
+			return (t1);
+		}
+		else if (0 <= compare2 && compare2 <= cylinder->height && t2 > 0)
+		{
+			if (shadow)
+				cylinder->front = BACK;
+			return (t2);
+		}
+		else if (shadow)
 			cylinder->front = NOTHING;
-		return (0);
 	}
+	return (0);
 }
 
 double get_t_val(t_object *object, t_vec3 start_vec, t_vec3 dir_vec, int shadow)
