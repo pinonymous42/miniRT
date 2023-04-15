@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 14:45:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 14:27:37 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 17:11:47 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,6 @@ int draw(t_rt *rt, double x, double y)
 	t_vec3 dir_vec;
 	t_list *tmp_lst;
 	t_object *tmp;
-
 
 	dir_vec = get_dir_vec(x, y, rt);
 	tmp_lst = rt->objects;

@@ -6,12 +6,13 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 09:41:28 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 14:37:58 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 19:17:39 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "libft.h"
+#include "mlx.h"
 
 void delete_rt(t_rt *rt)
 {
@@ -30,4 +31,6 @@ void delete_rt(t_rt *rt)
 		free(rt->objects);
 		rt->objects = next;
 	}
+	if (rt->game.mlx)
+		mlx_destroy_window(rt->game.mlx, rt->game.win);	
 }

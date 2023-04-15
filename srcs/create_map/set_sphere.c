@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:50:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 14:58:55 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 16:53:46 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ int	set_sphere(t_rt *rt, char **argv)
 	if (status)
 		free (sphere);
 	else
-		status = set_list(rt, (void *)sphere, sp);
+		status = set_list(rt, (void *)sphere, SPHERE);
 	return (status);
 }

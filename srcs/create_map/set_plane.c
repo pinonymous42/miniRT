@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:52:49 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 15:03:43 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 16:53:54 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ int	set_plane(t_rt *rt, char **argv)
 	if (status)
 		free(plane);
 	else
-		status = set_list(rt, (void *)plane, pl);
+		status = set_list(rt, (void *)plane, PLANE);
 	return (status);
 }

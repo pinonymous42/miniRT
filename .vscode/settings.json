@@ -14,6 +14,10 @@
 		"limits": "c",
 		"ratio": "c",
 		"algorithm": "c",
-		"util.h": "c"
+		"util.h": "c",
+		"mlx.h": "c",
+		"mlx_info.h": "c",
+		"minirt.h": "c",
+		"key_code.h": "c"
 	}
 }

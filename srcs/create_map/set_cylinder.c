@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 00:43:02 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 15:04:21 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 17:23:57 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ int	set_cylinder(t_rt *rt, char **argv)
 	if (status)
 		free (cylinder);
 	else
-		status = set_list(rt, (void *)cylinder, cy);
+		status = set_list(rt, (void *)cylinder, CYLINDER);
 	return (status);
 }

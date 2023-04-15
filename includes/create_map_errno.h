@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:56:55 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 14:32:59 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 18:48:54 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@
 #define A_NONE_ERR 33
 #define C_NONE_ERR 34
 #define L_NONE_ERR 35
+
+#define NON_C_ERR 36
 
 
 
