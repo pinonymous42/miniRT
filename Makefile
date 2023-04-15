@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
+#    By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/15 17:15:23 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/15 20:00:57 by kohmatsu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SRC_FILE := color_util.c material_util.c mlx_util.c vec_util.c free_util.c delet
 SOURCES += $(addprefix util/, $(SRC_FILE))
 
 SRC_FILE := comb_v2.c get_t_val.c determin_normal_vec.c
-#SRC_FILE := comv_v0.c
+# SRC_FILE := comv_v0.c
 SOURCES += $(addprefix refactoring_code/, $(SRC_FILE))
 OBJECTS	:= $(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
 RM := rm -f

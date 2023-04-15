@@ -10,7 +10,7 @@
 #include "libft.h"
 
 #define PLAIN 1
-#define NUMBER 1
+#define NUMBER 2
 void get_t_value(t_vec3 start_vec, t_vec3 dir_vec, t_objects *object_list, double *t, int i, int shadow) // 交差判定
 {
 	double a = 0;
@@ -218,18 +218,13 @@ void my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_objects
 				  t_fcolor light_color, t_fcolor ambient_color)
 {
 	t_fcolor new = rgb_init(0, 0, 0);
-	if (object_list[i].kind == CYLINDER)
-		printf("t: %f\n", t[i]);
 	t_vec3 crosspoint_vec = vec3_add(camera_vec, vec3_mul(dir_vec, t[i]));	   // 視線と物体の交点の位置ベクトル
 	t_vec3 incident_vec = vec3_normalize(vec3_sub(light_vec, crosspoint_vec)); // 入射ベクトル(入射って言ってるけど、向きに注意)
-	incident_vec = vec3_init(0, 0, 0);
 	new = add_color(new, ambient_color, ambient_power);
 	// 影かどうか
 	double distance = vec3_mag(vec3_sub(light_vec, crosspoint_vec)) - epsilon;
 	double shadow = 0;
 	shadow = check_shadow(crosspoint_vec, incident_vec, epsilon, object_list);
-	if (shadow)
-		printf(""shadow);
 	// if (shadow != 0)
 	//	printf("shadow: %f\n", shadow);
 	//  if (object_list[i].kind == CYLINDER)
@@ -243,7 +238,7 @@ void my_put_pixel(t_vec3 camera_vec, t_vec3 dir_vec, t_vec3 light_vec, t_objects
 		new = diffusion(incident_vec, reflect_normal_vec, object_list, i, new);
 
 		// 鏡面反射
-		//new = specular(dir_vec, reflect_normal_vec, incident_vec, object_list, new, light_color, light_power, i);
+		new = specular(dir_vec, reflect_normal_vec, incident_vec, object_list, new, light_color, light_power, i);
 	}
 	light_color.blue++;
 	light_power++;
@@ -270,10 +265,10 @@ t_orthonormal init_unit(t_vec3 camera_normal_vec)
 
 int main_loop(t_game *game)
 {
-	double theta = 100;												  // FOV
+	double theta = 80;												  // FOV
 	double camera2screen = 2 / (2 * tan(((theta / 180 * M_PI) / 2))); // カメラからスクリーンまでの距離
 	double epsilon = 1.0 / 512;										  // 微小距離
-	t_vec3 camera_vec = vec3_init(2, 5, -5);						  // 視点位置のベクトル
+	t_vec3 camera_vec = vec3_init(0, 100, 0);						  // 視点位置のベクトル
 	t_vec3 camera_normal_vec = vec3_normalize(vec3_init(0, -1, 1));	  // 視点位置の法線ベクトル
 	t_orthonormal screen_unit_vec = init_unit(camera_normal_vec);
 	double light_power = 1.0;
@@ -283,18 +278,18 @@ int main_loop(t_game *game)
 	t_vec3 light_vec = vec3_init(-5, 10, -5); // 光源の位置ベクトル
 	t_objects *object_list = (t_objects *)malloc(sizeof(t_objects) * NUMBER);
 	// //1個目の球
-	// object_list[0].vec = vec3_init(-1, 0, 5); //球の中心座標
-	// object_list[0].diameter = 1.0; //球の直径
-	// object_list[0].color = rgb_init(255, 0, 0);
-	// object_list[0].material = material_init(0.69, 0.3, 8);
-	// object_list[0].kind = SPHERE;
+	object_list[0].vec = vec3_init(0, 0, 0); //球の中心座標
+	object_list[0].diameter = 15; //球の直径
+	object_list[0].color = rgb_init(255, 0, 0);
+	object_list[0].material = material_init(0.69, 0.3, 8);
+	object_list[0].kind = SPHERE;
 
-	// //2個目の球
-	// object_list[1].vec = vec3_init(0, 0, 10); //球の中心座標
-	// object_list[1].diameter = 1.0; //球の直径
-	// object_list[1].color = rgb_init(255, 255, 0);
-	// object_list[1].material = material_init(0.69, 0.3, 8);
-	// object_list[1].kind = SPHERE;
+	//2個目の球
+	object_list[1].vec = vec3_init(0, 0, 40); //球の中心座標
+	object_list[1].diameter = 15; //球の直径
+	object_list[1].color = rgb_init(255, 255, 0);
+	object_list[1].material = material_init(0.69, 0.3, 8);
+	object_list[1].kind = SPHERE;
 
 	// //3個目の球
 	// object_list[2].vec = vec3_init(1, 0, 15); //球の中心座標
@@ -325,14 +320,14 @@ int main_loop(t_game *game)
 	// object_list[0].kind = PLAIN;
 
 	// 円筒
-	object_list[0].vec = vec3_init(0, -1, 0);
-	object_list[0].diameter = 0.5;
-	object_list[0].height = 3;
-	object_list[0].color = rgb_init(0, 0, 255);
-	object_list[0].material = material_init(0.69, 0.3, 8);
-	object_list[0].normal_vec = vec3_init(0, 1, 0);
-	object_list[0].kind = CYLINDER;
-	object_list[0].cylinder_front_or_back = NOTHING;
+	// object_list[0].vec = vec3_init(0, -1, 0);
+	// object_list[0].diameter = 0.5;
+	// object_list[0].height = 3;
+	// object_list[0].color = rgb_init(0, 0, 255);
+	// object_list[0].material = material_init(0.69, 0.3, 8);
+	// object_list[0].normal_vec = vec3_init(0, 1, 0);
+	// object_list[0].kind = CYLINDER;
+	// object_list[0].cylinder_front_or_back = NOTHING;
 
 	int i;
 	int min_index;

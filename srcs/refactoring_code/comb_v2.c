@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   comb_v2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 14:45:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 17:11:47 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 20:50:29 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,12 @@ typedef struct s_orthonormal
 t_orthonormal init_unit(t_vec3 camera_normal_vec)
 {
 	t_orthonormal ret;
+	t_vec3 y_unit_vector;
 
-	t_vec3 y_unit_vector = vec3_init(0, 1, 0); //(0, 1, 0)の単位ベクトル。これを定義しないと自由に回転できちゃう。
+	if (camera_normal_vec.x == 0 && (camera_normal_vec.y == 1 || camera_normal_vec.y == -1) && camera_normal_vec.z == 0)
+		y_unit_vector = vec3_init(1, 0, 0); //(1, 0, 0)の単位ベクトル。これを定義しないと自由に回転できちゃう。
+	else
+		y_unit_vector = vec3_init(0, 1, 0); //(0, 1, 0)の単位ベクトル。これを定義しないと自由に回転できちゃう。
 	ret.x_unit_vector = vec3_cross(y_unit_vector, camera_normal_vec);
 	ret.y_unit_vector = vec3_cross(camera_normal_vec, ret.x_unit_vector);
 	return (ret);

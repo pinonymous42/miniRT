@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_t_val.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 16:27:27 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/13 23:53:18 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 20:43:49 by kohmatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ double get_t_val_sphere(t_sphere *sphere, t_vec3 start_vec, t_vec3 dir_vec)
 	double t2;
 
 	t_vec3 camera2sphere_vec = vec3_sub(start_vec, sphere->center); // カメラから球へのベクトル
+	// printf("x: %f, y: %f, z: %f\n", camera2sphere_vec.x, camera2sphere_vec.y, camera2sphere_vec.z);
 	a = vec3_mag(dir_vec) * vec3_mag(dir_vec);
 	b = 2 * vec3_dot(camera2sphere_vec, dir_vec);
 	c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - sphere->diameter * sphere->diameter;
