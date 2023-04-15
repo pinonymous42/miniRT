@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 04:02:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/11 17:01:44 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 14:11:01 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,10 @@ typedef struct s_light
 typedef struct s_rt
 {
 	t_game game;
-	int screen_width;
-	int screen_height;
-	t_camera *camera;  // カメラのリスト
-	t_list *objects;   // 物体のリスト
-	t_ambient ambient; // 環境光の強度
-	t_light *light;	   // 光源のリスト
+	t_camera	*camera;  // カメラ
+	t_list		*objects; // 物体のリスト
+	t_ambient	*ambient; // 環境光
+	t_light		*light;	  // 光源
 } t_rt;
 
 int create_map(char *filename, t_rt *rt);

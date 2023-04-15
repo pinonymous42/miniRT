@@ -8,33 +8,14 @@
 #include "key_code.h"
 #include "combination.h"
 #include "object.h"
+#include "util.h"
 
 void init_rt(t_rt *rt)
 {
-	rt->screen_width = 1000;
-	rt->screen_height = 800;
 	rt->camera = NULL;
 	rt->objects = NULL;
 	rt->light = NULL;
-}
-
-void delete_rt(t_rt *rt)
-{
-	t_list *next;
-	t_object *tmp;
-	if (rt->camera)
-		free(rt->camera);
-	if (rt->light)
-		free(rt->light);
-	while (rt->objects)
-	{
-		next = rt->objects->next;
-		tmp = (t_object *)rt->objects->content;
-		free(tmp->object);
-		free(rt->objects->content);
-		free(rt->objects);
-		rt->objects = next;
-	}
+	rt->ambient = NULL;
 }
 
 void put_rt(t_rt *rt)
@@ -112,7 +93,7 @@ int main(int argc, char *argv[])
 	mlx_hook(rt.game.win, X_EVENT_KEY_PRESS, 1, &deal_key, &rt.game);
 	mlx_hook(rt.game.win, X_EVENT_KEY_EXIT, 1, &window_close, &rt.game);
 	draw_miniRT(&rt);
-	//mlx_loop(rt.game.mlx);
+	mlx_loop(rt.game.mlx);
 	
 	delete_rt(&rt);
 	return (0);

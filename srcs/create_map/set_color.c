@@ -6,13 +6,24 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:40:24 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/03 15:39:53 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 00:49:36 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "color.h"
 #include "util.h"
+
+int check_color(t_fcolor color)
+{
+	if (color.red < 0 || 255 < color.red)
+		return (1);
+	if (color.green < 0 || 255 < color.green)
+		return (1);
+	if (color.blue < 0 || 255 < color.blue)
+		return (1);
+	return (0);
+}
 
 t_fcolor set_color(char *arg)
 {
