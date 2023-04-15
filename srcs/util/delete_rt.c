@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_util.c                                        :+:      :+:    :+:   */
+/*   delete_rt.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/03 15:10:36 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/03 15:53:40 by tasano           ###   ########.fr       */
+/*   Created: 2023/04/15 09:41:28 by tasano            #+#    #+#             */
+/*   Updated: 2023/04/15 19:17:39 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "miniRT.h"
+#include "libft.h"
+#include "mlx.h"
 
-void free_args(char **args)
+void delete_rt(t_rt *rt)
 {
-	if (!args)
-		return;
-	while (*args)
+	t_list *next;
+	t_object *tmp;
+
+	free(rt->camera);
+	free(rt->light);
+	free(rt->ambient);
+	while (rt->objects)
 	{
-		if (*args)
-			free(*args);
-		*args = NULL;
-		args++;
+		next = rt->objects->next;
+		tmp = (t_object *)rt->objects->content;
+		free(tmp->object);
+		free(tmp);
+		free(rt->objects);
+		rt->objects = next;
 	}
-	args = NULL;
+	if (rt->game.mlx)
+		mlx_destroy_window(rt->game.mlx, rt->game.win);	
 }

@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 14:45:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/13 23:54:28 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 17:11:47 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@
 #include "object.h"
 #include <math.h>
 
-
 typedef struct s_orthonormal
 {
 	t_vec3 x_unit_vector;
 	t_vec3 y_unit_vector;
 } t_orthonormal;
-
 
 t_orthonormal init_unit(t_vec3 camera_normal_vec)
 {
@@ -157,7 +155,7 @@ void my_put_pixel(t_rt *rt, t_object *min_object, t_vec3 dir_vec, int x, int y)
 	t_fcolor new = rgb_init(0, 0, 0);
 	t_vec3 crosspoint_vec = vec3_add(rt->camera->point, vec3_mul(dir_vec, min)); // 視線と物体の交点の位置ベクトル
 	t_vec3 incident_vec = vec3_normalize(vec3_sub(rt->light->point, crosspoint_vec));	   // 入射ベクトル(入射って言ってるけど、向きに注意)
-	new = add_color(new, rt->ambient.color, rt->ambient.ratio);
+	new = add_color(new, rt->ambient->color, rt->ambient->ratio);
 
 	// 影かどうか
 	double distance = vec3_mag(vec3_sub(rt->light->point, crosspoint_vec)) - epsilon;
@@ -181,7 +179,6 @@ int draw(t_rt *rt, double x, double y)
 	t_vec3 dir_vec;
 	t_list *tmp_lst;
 	t_object *tmp;
-
 
 	dir_vec = get_dir_vec(x, y, rt);
 	tmp_lst = rt->objects;

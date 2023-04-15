@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:08:11 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/09 13:45:07 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 16:53:01 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@
 #include "vector.h"
 #include "color.h"
 
-#define sp 0
-#define pl 1
-#define cy 2
+#define SPHERE 0
+#define PLANE 1
+#define CYLINDER 2
+
+#define NOTHING 0
+#define FRONT 1
+#define BACK 2
 
 // sp Sphere
 typedef struct s_sphere

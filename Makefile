@@ -6,7 +6,7 @@
 #    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/13 23:55:43 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/15 17:15:23 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,11 @@ CC			:=	cc
 CFLAGS		:=	-Wall -Werror -Wextra
 #CFLAGS  	+=  -fsanitize=address -g
 
-HEADERS			:=  ./includes
-LIBFT_DIR		:=	./lib/libft
-LIBFT			:=	$(LIBFT_DIR)/libft.a
-HEADERS			+=	$(LIBFT_DIR)/includes
+HEADERS		:=  ./includes
+
+LIBFT_DIR	:=	./lib/libft
+LIBFT		:=	$(LIBFT_DIR)/libft.a
+HEADERS		+=	$(LIBFT_DIR)/includes
 
 MLX_DIR		:=	./lib/mlx
 LIBMLX		:=	$(MLX_DIR)/libmlx.a
@@ -32,12 +33,13 @@ INCLUDES		:=	$(addprefix -I , $(HEADERS))
 SOURCES :=	main.c
 # create_map
 SRC_FILE := create_map.c \
-			set_ambient.c set_camera.c set_color.c set_light.c set_vec.c create_object.c \
-			check_color.c check_vec.c
+			set_ambient.c set_camera.c  set_light.c \
+			set_sphere.c set_plane.c set_cylinder.c set_object_list.c \
+			set_vec.c set_color.c 
 SOURCES += $(addprefix create_map/, $(SRC_FILE))
 
 #util 
-SRC_FILE := color_util.c material_util.c mlx_util.c vec_util.c free_util.c
+SRC_FILE := color_util.c material_util.c mlx_util.c vec_util.c free_util.c delete_rt.c
 SOURCES += $(addprefix util/, $(SRC_FILE))
 
 SRC_FILE := comb_v2.c get_t_val.c determin_normal_vec.c

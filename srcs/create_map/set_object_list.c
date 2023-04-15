@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_color.c                                      :+:      :+:    :+:   */
+/*   set_object_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/01 16:25:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/03 14:04:58 by tasano           ###   ########.fr       */
+/*   Created: 2023/04/15 14:58:15 by tasano            #+#    #+#             */
+/*   Updated: 2023/04/15 14:58:25 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "color.h"
+#include "miniRT.h"
+#include "libft.h"
+#include "object.h"
 
-int check_color(t_fcolor color)
+int	set_list(t_rt *rt, void *content, int type)
 {
-	if (color.red < 0 || 255 < color.red)
+	t_object	*object;
+	t_list		*new;
+
+	object = (t_object *)malloc(sizeof(t_object));
+	if (!object)
 		return (1);
-	if (color.green < 0 || 255 < color.green)
+	object->object = content;
+	object->type = type;
+	object->t = 0;
+	new = ft_lstnew((void *)object);
+	if (!new)
+	{
+		free (object);
 		return (1);
-	if (color.blue < 0 || 255 < color.blue)
-		return (1);
+	}
+	ft_lstadd_back(&rt->objects, new);
 	return (0);
 }
