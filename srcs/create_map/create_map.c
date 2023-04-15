@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:37:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 14:33:51 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 15:01:28 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <fcntl.h>
 #include "util.h"
 
-static void put_cratemap_err(int status)
+static void	put_cratemap_err(int status)
 {
 	ft_putstr_fd("ERROR status = ", 2);
 	ft_putnbr_fd(status, 2);
@@ -25,9 +25,9 @@ static void put_cratemap_err(int status)
 	exit(status);
 }
 
-static int set_element(char **elements, t_rt *rt)
+static int	set_element(char **elements, t_rt *rt)
 {
-	int status;
+	int	status;
 
 	status = 0;
 	if (ft_strncmp("A", elements[0], 2) == 0)
@@ -45,7 +45,7 @@ static int set_element(char **elements, t_rt *rt)
 	return (status);
 }
 
-static int check_none_elem(t_rt *rt)
+static int	check_none_elem(t_rt *rt)
 {
 	if (!rt->ambient)
 		return (A_NONE_ERR);
@@ -56,20 +56,20 @@ static int check_none_elem(t_rt *rt)
 	return (0);
 }
 
-static int parse_map(int fd, t_rt *rt)
+static int	parse_map(int fd, t_rt *rt)
 {
-	char *line;
-	char **elements;
-	int status;
+	char	*line;
+	char	**elements;
+	int		status;
 
 	status = 0;
 	while (1 && status == 0)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			break;
+			break ;
 		if (*line && *line == '\n')
-			continue;
+			continue ;
 		elements = ft_split_space(line);
 		free(line);
 		if (!elements)
@@ -81,10 +81,11 @@ static int parse_map(int fd, t_rt *rt)
 	return (status);
 }
 
-int create_map(char *filename, t_rt *rt)
+int	create_map(char *filename, t_rt *rt)
 {
-	int fd;
-	int status;
+	int	fd;
+	int	status;
+
 	fd = open(filename, R_OK);
 	if (fd < 0)
 	{

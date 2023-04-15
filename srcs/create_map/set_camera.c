@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:41:10 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 14:29:35 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 14:59:17 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "miniRT.h"
 #include "create_map_errno.h"
 
-int check_camera(char **argv, t_camera *camera)
+int	check_camera(char **argv, t_camera *camera)
 {
 	if (check_vec(argv[0]))
 		return (C_POINT_ERR);
@@ -27,7 +27,7 @@ int check_camera(char **argv, t_camera *camera)
 	return (0);
 }
 
-int set_camera(char **argv, t_rt *rt)
+int	set_camera(char **argv, t_rt *rt)
 {
 	if (rt->camera)
 		return (C_DUP_ERR);

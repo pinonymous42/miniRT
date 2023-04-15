@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:52:49 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 01:08:15 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 15:03:43 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "miniRT.h"
 #include "create_map.h"
 
-static int check_plane(char **argv, t_plane *plane)
+static int	check_plane(char **argv, t_plane *plane)
 {
 	if (check_vec(argv[0]))
 		return (PL_POINT_ERR);
@@ -27,10 +27,11 @@ static int check_plane(char **argv, t_plane *plane)
 	return (0);
 }
 
-int set_plane(t_rt *rt, char **argv)
+int	set_plane(t_rt *rt, char **argv)
 {
-	t_plane *plane;
+	t_plane	*plane;
 	int		status;
+
 	if (!argv || !argv[0] || !argv[1] || !argv[2])
 		return (MALLOC_ERR);
 	plane = (t_plane *)malloc(sizeof(t_plane));

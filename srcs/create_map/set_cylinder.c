@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 00:43:02 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 01:13:24 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 15:04:21 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "miniRT.h"
 #include "create_map.h"
 
-static int check_cylinder(char **argv, t_cylinder *cylinder)
+static int	check_cylinder(char **argv, t_cylinder *cylinder)
 {
 	if (check_vec(argv[0]))
 		return (CY_CENTER_ERR);
@@ -31,11 +31,10 @@ static int check_cylinder(char **argv, t_cylinder *cylinder)
 	return (0);
 }
 
-
-int set_cylinder(t_rt *rt ,char **argv)
+int	set_cylinder(t_rt *rt, char **argv)
 {
-	t_cylinder *cylinder;
-	int status;
+	t_cylinder	*cylinder;
+	int			status;
 
 	if (!argv || !argv[0] || !argv[1] || !argv[2] || !argv[3] || !argv[4])
 		return (MALLOC_ERR);
@@ -45,7 +44,7 @@ int set_cylinder(t_rt *rt ,char **argv)
 	cylinder->center = set_vec3(argv[0]);
 	cylinder->normalized = set_vec3(argv[1]);
 	cylinder->diameter = ft_atof(argv[2]);
-	cylinder->height =ft_atof(argv[3]);
+	cylinder->height = ft_atof(argv[3]);
 	cylinder->color = set_color(argv[4]);
 	cylinder->front = NOTHING;
 	status = check_cylinder(argv, cylinder);

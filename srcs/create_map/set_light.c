@@ -6,16 +6,16 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:06 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 01:01:39 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 14:59:59 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "create_map.h"
 #include "create_map_errno.h"
 
-static int check_light (char **argv, t_light *light)
+static int	check_light(char **argv, t_light *light)
 {
-	if (check_vec(argv[0]))	
+	if (check_vec(argv[0]))
 		return (L_POINT_ERR);
 	if (light->ratio < 0.0 || 1.0 < light->ratio)
 		return (L_RATIO_ERR);
@@ -24,7 +24,7 @@ static int check_light (char **argv, t_light *light)
 	return (0);
 }
 
-int set_light(char **argv, t_rt *rt)
+int	set_light(char **argv, t_rt *rt)
 {
 	if (rt->light)
 		return (L_DUP_ERR);

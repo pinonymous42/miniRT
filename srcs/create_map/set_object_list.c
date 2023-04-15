@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_object.c                                     :+:      :+:    :+:   */
+/*   set_object_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/31 20:38:07 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/01 13:56:57 by tasano           ###   ########.fr       */
+/*   Created: 2023/04/15 14:58:15 by tasano            #+#    #+#             */
+/*   Updated: 2023/04/15 14:58:25 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "object.h"
 
-int set_list(t_rt *rt, void *content, int type)
+int	set_list(t_rt *rt, void *content, int type)
 {
 	t_object	*object;
 	t_list		*new;
@@ -23,7 +23,7 @@ int set_list(t_rt *rt, void *content, int type)
 	if (!object)
 		return (1);
 	object->object = content;
-	object->type  = type;
+	object->type = type;
 	object->t = 0;
 	new = ft_lstnew((void *)object);
 	if (!new)

@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:50:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 01:06:02 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/15 14:58:55 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "miniRT.h"
 #include "create_map.h"
 
-static int check_sphere(char **argv, t_sphere *sphere)
+static int	check_sphere(char **argv, t_sphere *sphere)
 {
 	if (check_vec(argv[0]))
 		return (SP_CENTER_ERR);
@@ -25,9 +25,9 @@ static int check_sphere(char **argv, t_sphere *sphere)
 	return (0);
 }
 
-int set_sphere(t_rt *rt, char **argv)
+int	set_sphere(t_rt *rt, char **argv)
 {
-	t_sphere *sphere;
+	t_sphere	*sphere;
 	int			status;
 
 	if (!argv || !argv[0] || !argv[1] || !argv[2])
