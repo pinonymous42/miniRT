@@ -1,5 +1,4 @@
-//#include "mlx.h"
-//#include "combination.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "miniRT.h"
@@ -8,7 +7,6 @@
 #include "key_code.h"
 #include "object.h"
 #include "util.h"
-#include "combination.h"
 
 void init_rt(t_rt *rt)
 {

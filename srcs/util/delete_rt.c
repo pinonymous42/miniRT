@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 09:41:28 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 19:17:39 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 15:06:15 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "libft.h"
 #include "mlx.h"
 
-void delete_rt(t_rt *rt)
+void	delete_rt(t_rt *rt)
 {
-	t_list *next;
-	t_object *tmp;
+	t_list		*next;
+	t_object	*tmp;
 
 	free(rt->camera);
 	free(rt->light);

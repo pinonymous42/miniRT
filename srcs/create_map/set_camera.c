@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:41:10 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 17:22:34 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/16 19:58:20 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int	set_camera(char **argv, t_rt *rt)
 		return (MALLOC_ERR);
 	rt->camera->point = set_vec3(argv[0]);
 	rt->camera->normalized = set_vec3(argv[1]);
-	rt->camera->fov = ft_atoi(argv[2]);
+	rt->camera->fov = ft_atof(argv[2]);
 	return (check_camera(argv, rt->camera));
 }

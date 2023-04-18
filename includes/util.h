@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:12:31 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 09:46:59 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 15:02:31 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,14 @@
 #define UTIL_H
 
 #include "vector.h"
-#include "material.h"
 #include "color.h"
 #include "miniRT.h"
 
 void free_args(char **argv);
 
 t_fcolor	rgb_init(int r, int g, int b);
-int	rgb_to_int(int r, int g, int b);
+int			rgb_to_int(t_fcolor color);
 t_fcolor	add_color(t_fcolor c1, t_fcolor c2, double multi);
-
-t_material material_init(double kDif, double kSpe, double shininess);
 
 t_vec3	vec3_init(double x, double y , double z);
 t_vec3	vec3_add(t_vec3 vec1, t_vec3 vec2);

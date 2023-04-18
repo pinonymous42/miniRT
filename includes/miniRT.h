@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 04:02:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 20:01:02 by kohmatsu         ###   ########.fr       */
+/*   Updated: 2023/04/16 21:24:13 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_camera
 {
 	t_vec3 point;
 	t_vec3 normalized;
-	int fov;
+	double fov;
 } t_camera;
 
 // L Light
@@ -58,7 +58,5 @@ typedef struct s_rt
 
 int create_map(char *filename, t_rt *rt);
 int draw_miniRT(t_rt* rt);
-t_vec3 determin_normal_vec(t_rt *rt, t_object *object, t_vec3 crosspoint_vec, t_vec3 dir_vec, double min);
-double get_t_val(t_object *object, t_vec3 start_vec, t_vec3 dir_vec, int shadow);
 
 #endif

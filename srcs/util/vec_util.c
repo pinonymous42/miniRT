@@ -6,16 +6,16 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:27:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/02 14:31:45 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 15:06:41 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 #include <math.h>
-//ベクトル演算系
+
 t_vec3	vec3_init(double x, double y , double z)
 {
-	t_vec3 new;
+	t_vec3	new;
 
 	new.x = x;
 	new.y = y;
@@ -25,7 +25,7 @@ t_vec3	vec3_init(double x, double y , double z)
 
 t_vec3	vec3_add(t_vec3 vec1, t_vec3 vec2)
 {
-	t_vec3 ret;
+	t_vec3	ret;
 	ret.x = vec1.x + vec2.x;
 	ret.y = vec1.y + vec2.y;
 	ret.z = vec1.z + vec2.z;
@@ -34,7 +34,7 @@ t_vec3	vec3_add(t_vec3 vec1, t_vec3 vec2)
 
 t_vec3	vec3_sub(t_vec3 vec1, t_vec3 vec2)
 {
-	t_vec3 ret;
+	t_vec3	ret;
 	ret.x = vec1.x - vec2.x;
 	ret.y = vec1.y - vec2.y;
 	ret.z = vec1.z - vec2.z;
