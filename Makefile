@@ -6,7 +6,7 @@
 #    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/18 20:19:14 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/18 22:28:17 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ FCLEAN_MSG	:=	"$(RED) Delete $(NAME)$(DEFAULT)"
 .PHONY: all fclean clean re libft
 
 $(NAME):   $(LIBFT) $(LIBMLX) $(OBJECTS)
-	$(CC) $(CFLAGS) -o $(NAME) $(LIBFT) $(LIBMLX) $(LXFLAGS) $(OBJECTS)
+	@$(CC) $(CFLAGS) -o $(NAME) $(LIBFT) $(LIBMLX) $(LXFLAGS) $(OBJECTS)
 	@echo $(NAME_MSG)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c

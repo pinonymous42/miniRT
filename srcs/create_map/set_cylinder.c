@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 00:43:02 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 17:23:57 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 22:26:14 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,17 @@
 
 static int	check_cylinder(char **argv, t_cylinder *cylinder)
 {
+	t_vec3	tmp;
+
+	tmp = cylinder->normalized;
 	if (check_vec(argv[0]))
 		return (CY_CENTER_ERR);
 	if (check_vec(argv[1]))
 		return (CY_NORMARIZE_ERR);
-	if (check_vec_range(cylinder->normalized, -1, 1))
+	if (check_vec_range(tmp, -1, 1))
 		return (CY_NORMARIZE_RANGE_ERR);
+	if (tmp.x == 0 && tmp.y == 0 && tmp.z == 0)
+		return (CY_NORMARIZE_ERR);
 	if (check_color(cylinder->color))
 		return (CY_COLOR_ERR);
 	if (cylinder->diameter <= 0)

@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:41:10 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/16 19:58:20 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 22:26:41 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,17 @@
 
 int	check_camera(char **argv, t_camera *camera)
 {
+	t_vec3	tmp;
+
+	tmp = camera->normalized;
 	if (check_vec(argv[0]))
 		return (C_POINT_ERR);
 	if (check_vec(argv[1]))
 		return (C_NORMALIZE_ERR);
-	if (check_vec_range(camera->normalized, -1, 1))
+	if (check_vec_range(tmp, -1, 1))
 		return (C_NORMALIZE_RANGE_ERR);
+	if (tmp.x == 0 && tmp.y == 0 && tmp.z == 0)
+		return (C_NORMALIZE_ERR);
 	if (camera->fov < 0 || 180 < camera->fov)
 		return (C_FOV_ERR);
 	return (0);

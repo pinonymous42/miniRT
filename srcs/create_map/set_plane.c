@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:52:49 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 16:53:54 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 22:26:32 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@
 
 static int	check_plane(char **argv, t_plane *plane)
 {
+	t_vec3	tmp;
+
+	tmp = plane->normalized;
 	if (check_vec(argv[0]))
 		return (PL_POINT_ERR);
 	if (check_vec(argv[1]))
 		return (PL_NORMARIZE_ERR);
-	if (check_vec_range(plane->normalized, -1, 1))
+	if (check_vec_range(tmp, -1, 1))
+		return (PL_NORMARIZE_RANGE_ERR);
+	if (tmp.x == 0 && tmp.y == 0 && tmp.z == 0)
 		return (PL_NORMARIZE_ERR);
 	if (check_color(plane->color))
 		return (PL_COLOR_ERR);
