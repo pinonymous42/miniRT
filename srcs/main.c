@@ -1,14 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/18 20:12:53 by tasano            #+#    #+#             */
+/*   Updated: 2023/04/18 22:18:45 by tasano           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "miniRT.h"
 #include "mlx.h"
-#include "mlx_info.h"
-#include "key_code.h"
-#include "object.h"
-#include "util.h"
 
-void init_rt(t_rt *rt)
+void	init_rt(t_rt *rt)
 {
 	rt->game.mlx = NULL;
 	rt->game.win = NULL;
@@ -16,21 +21,34 @@ void init_rt(t_rt *rt)
 	rt->objects = NULL;
 	rt->light = NULL;
 	rt->ambient = NULL;
+	rt->min_object = NULL;
+	rt->min = 0;
+	rt->epsilon = 1.0 / 512;
 }
 
-int init_hooks(t_rt *rt)
+int	check_rtfile(char *file)
 {
-	mlx_hook(rt->game.win, X_EVENT_KEY_PRESS, 1, &deal_key, rt);
-	mlx_hook(rt->game.win, X_EVENT_KEY_EXIT, 1, &window_close, rt);
-	return (0);
+	size_t	len;
+
+	if (!file || !file[0])
+		return (1);
+	len = ft_strlen(file);
+	if (len < 3)
+		return (1);
+	len -= 3;
+	file += len;
+	if (ft_strncmp(file, ".rt", 4) == 0)
+		return (0);
+	else
+		return (1);
 }
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
-	t_rt rt;
-	int status;
+	t_rt	rt;
+	int		status;
 
-	if (argc != 2)
+	if (argc != 2 || check_rtfile(argv[1]))
 	{
 		ft_putendl_fd("Usage : ./miniRT .rt", 2);
 		return (1);
@@ -39,16 +57,9 @@ int main(int argc, char *argv[])
 	status = create_map(argv[1], &rt);
 	if (status)
 		return (status);
-	rt.game.mlx = mlx_init();
-	rt.game.win = mlx_new_window(rt.game.mlx, WIDTH, HEIGHT, "miniRT");
-	draw_miniRT(&rt);
+	init_mlx(&rt);
+	draw_minirt(&rt);
 	init_hooks(&rt);
 	mlx_loop(rt.game.mlx);
-	delete_rt(&rt);
-	return (status);
-}
-
-__attribute__((destructor))
- static void destructor() {
-    system("leaks -q miniRT");
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 14:45:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/18 18:37:45 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 19:39:25 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@
 #include <math.h>
 #include "draw.h"
 
-void my_put_pixel(t_rt *rt, t_vec3 dir_vec, int x, int y)
+static void	my_put_pixel(t_rt *rt, t_vec3 dir_vec, int x, int y)
 {
-	t_fcolor color;
-	double shadow = 0;
+	t_fcolor	color;
+	double		shadow;
 
-	//shadow = check_shadow(rt, dir_vec, rt->min);
+	shadow = check_shadow(rt, dir_vec, rt->min);
 	color = get_pixcel_color(rt, shadow, dir_vec);
 	mlx_pixel_put(rt->game.mlx, rt->game.win, x, y, rgb_to_int(color));
 }
 
-int draw(t_rt *rt, double x, double y)
+static int	draw(t_rt *rt, double x, double y)
 {
 	t_vec3		dir_vec;
 
@@ -41,13 +41,13 @@ int draw(t_rt *rt, double x, double y)
 	return (0);
 }
 
-int draw_miniRT(t_rt *rt)
+int	draw_minirt(t_rt *rt)
 {
-	double x;
-	double y;
+	double	x;
+	double	y;
 
 	y = -1;
-	rt->camera->normalized = vec3_normalize(rt->camera->normalized); 
+	rt->camera->normalized = vec3_normalize(rt->camera->normalized);
 	while (++y < HEIGHT)
 	{
 		x = -1;

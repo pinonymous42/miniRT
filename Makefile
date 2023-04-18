@@ -6,7 +6,7 @@
 #    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/18 18:57:01 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/18 20:19:14 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ OBJ_DIR		:=	./obj
 SRC_DIR		:=	./srcs
 CC			:=	cc
 CFLAGS		:=	-Wall -Werror -Wextra
-#CFLAGS  	+=  -fsanitize=address -g
+CFLAGS  	+=  -fsanitize=address -g
 
 HEADERS		:=  ./includes
 
@@ -97,6 +97,4 @@ re: fclean all
 
 norm:
 	norminette -v
-	norminette $(SRC_DIR)
-	norminette $(LIBFT_DIR)
-	norminette $(includes)
+	norminette $(SRC_DIR) $(LIBFT_DIR) ./includes | grep "Error"

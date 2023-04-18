@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:43:04 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/18 17:59:02 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 19:01:20 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@
 
 static int	check_vertical(t_vec3 normal_vec)
 {
-	if (normal_vec.x == 0 && (normal_vec.y == 1 || normal_vec.y == -1) && normal_vec.z == 0)
+	if (normal_vec.x == 0 && \
+		(normal_vec.y == 1 || normal_vec.y == -1) && \
+		normal_vec.z == 0)
 		return (1);
 	return (0);
 }
-
 
 t_orthonormal	init_unit(t_vec3 camera_normal_vec)
 {

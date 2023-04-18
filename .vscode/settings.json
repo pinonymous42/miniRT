@@ -18,6 +18,8 @@
 		"mlx.h": "c",
 		"mlx_info.h": "c",
 		"minirt.h": "c",
-		"key_code.h": "c"
+		"key_code.h": "c",
+		"color.h": "c",
+		"create_map_errno.h": "c"
 	}
 }
