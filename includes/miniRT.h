@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 04:02:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/16 21:24:13 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 16:26:35 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct s_rt
 	t_list		*objects; // 物体のリスト
 	t_ambient	*ambient; // 環境光
 	t_light		*light;	  // 光源
+	t_object	*min_object;
+	double		min;
 } t_rt;
 
 int create_map(char *filename, t_rt *rt);

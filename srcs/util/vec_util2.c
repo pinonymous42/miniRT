@@ -6,11 +6,12 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:07:40 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/18 15:09:09 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 16:31:04 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
+#include <math.h>
 
 double	vec3_dot(t_vec3 vec1, t_vec3 vec2)
 {

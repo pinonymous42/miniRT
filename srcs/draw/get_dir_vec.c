@@ -6,20 +6,15 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:43:04 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/16 21:16:21 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 17:59:02 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 #include "miniRT.h"
 #include "mlx_info.h"
+#include "dir_vec.h"
 #include <math.h>
-
-typedef struct s_orthonormal
-{
-	t_vec3 x_unit_vector;
-	t_vec3 y_unit_vector;
-} t_orthonormal;
 
 static int	check_vertical(t_vec3 normal_vec)
 {
@@ -28,12 +23,12 @@ static int	check_vertical(t_vec3 normal_vec)
 	return (0);
 }
 
-t_orthonormal init_unit(t_vec3 camera_normal_vec)
-{
-	t_orthonormal ret;
-	t_vec3 y_unit_vector;
 
-	
+t_orthonormal	init_unit(t_vec3 camera_normal_vec)
+{
+	t_orthonormal	ret;
+	t_vec3			y_unit_vector;
+
 	if (check_vertical(camera_normal_vec) == 1)
 		y_unit_vector = vec3_init(1, 0, 0);
 	else
@@ -43,7 +38,7 @@ t_orthonormal init_unit(t_vec3 camera_normal_vec)
 	return (ret);
 }
 
-t_vec3 get_dir_vec(double x, double y, t_rt *rt)
+t_vec3	get_dir_vec(double x, double y, t_rt *rt)
 {
 	t_vec3			screen_vec;
 	t_orthonormal	screen_unit_vec;
@@ -56,10 +51,9 @@ t_vec3 get_dir_vec(double x, double y, t_rt *rt)
 	f_x = 2 * x / WIDTH - 1.0;
 	f_y = -(2 * y / HEIGHT - 1.0);
 	screen_vec = vec3_add(\
-	vec3_add(vec3_add(rt->camera->point,\
+	vec3_add(vec3_add(rt->camera->point, \
 	vec3_mul(rt->camera->normalized, camera2screen)), \
 	vec3_mul(screen_unit_vec.x_unit_vector, f_x)), \
 	vec3_mul(screen_unit_vec.y_unit_vector, f_y));
 	return (vec3_normalize(vec3_sub(screen_vec, rt->camera->point)));
 }
-

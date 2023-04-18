@@ -28,6 +28,7 @@ int init_hooks(t_rt *rt)
 int main(int argc, char *argv[])
 {
 	t_rt rt;
+	int status;
 
 	if (argc != 2)
 	{
@@ -35,13 +36,12 @@ int main(int argc, char *argv[])
 		return (1);
 	}
 	init_rt(&rt);
-	int status = create_map(argv[1], &rt);
+	status = create_map(argv[1], &rt);
 	if (status)
 		return (status);
 	rt.game.mlx = mlx_init();
 	rt.game.win = mlx_new_window(rt.game.mlx, WIDTH, HEIGHT, "miniRT");
 	draw_miniRT(&rt);
-	// main_loop(&rt.game);
 	init_hooks(&rt);
 	mlx_loop(rt.game.mlx);
 	delete_rt(&rt);

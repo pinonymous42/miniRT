@@ -6,7 +6,7 @@
 #    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/18 15:04:49 by tasano           ###   ########.fr        #
+#    Updated: 2023/04/18 18:57:01 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ SRC_FILE := draw.c \
 SOURCES += $(addprefix draw/, $(SRC_FILE))
 
 #util 
-SRC_FILE := color_util.c mlx_util.c vec_util.c free_util.c delete_rt.c
+SRC_FILE := color_util.c mlx_util.c vec_util.c vec_util2.c free_util.c delete_rt.c
 SOURCES += $(addprefix util/, $(SRC_FILE))
 
 OBJECTS	:= $(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
