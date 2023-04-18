@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 13:33:11 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/18 15:47:28 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/19 00:15:20 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_condition	get_condition_cylinder(t_cylinder *cylinder, \
 	tmp_vec_and_cross = vec3_cross(tmp_vec, cylinder->normalized);
 	con.a = vec3_mag(tmp_cross) * vec3_mag(tmp_cross);
 	con.b = 2 * vec3_dot(tmp_cross, tmp_vec_and_cross);
-	con.c = pow(vec3_mag(tmp_vec_and_cross), 2) - pow(cylinder->diameter, 2);
+	con.c = pow(vec3_mag(tmp_vec_and_cross), 2) - pow(cylinder->diameter / 2, 2);
 	con.d = con.b * con.b - 4 * con.a * con.c;
 	if (con.a == 0 || con.d == 0 || con.d < 0)
 		return (con);
@@ -53,7 +53,7 @@ t_condition	get_condition_shpere(t_sphere *sphere, \
 	con.a = vec3_mag(dir_vec) * vec3_mag(dir_vec);
 	con.b = 2 * vec3_dot(camera2sphere_vec, dir_vec);
 	con.c = vec3_dot(camera2sphere_vec, camera2sphere_vec) \
-			- pow(sphere->diameter, 2);
+			- pow(sphere->diameter / 2, 2);
 	con.d = con.b * con.b - 4 * con.a * con.c;
 	if (con.a == 0 || con.d == 0 || con.d < 0)
 		return (con);

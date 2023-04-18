@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 16:27:27 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/18 18:51:09 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 23:39:34 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ double	get_t_val_plane(t_plane *plane, t_vec3 start, t_vec3 dir)
 		return (0);
 	else if ((tmp_dot / tmp_dot2) < 0)
 		return (0);
-	else
-		return (tmp_dot / tmp_dot2);
+	return (tmp_dot / tmp_dot2);
 }
 
 double	get_t_val_sphere(t_sphere *sphere, t_vec3 start, t_vec3 dir)
@@ -37,10 +36,10 @@ double	get_t_val_sphere(t_sphere *sphere, t_vec3 start, t_vec3 dir)
 	t_condition	con;
 
 	con = get_condition_shpere(sphere, start, dir);
-	if (con.a != 0 && con.d >= 0)
+	if (con.d == 0)
+		return (-con.b / (2.0 * con.a));
+	if (con.a != 0 && 0 < con.d)
 	{
-		if (con.d == 0)
-			return (-con.b / (2.0 * con.a));
 		if (0 < con.t.t1 && 0 < con.t.t2)
 			return (fmin(con.t.t1, con.t.t2));
 		else if (con.t.t1 > 0 || con.t.t2 > 0)
