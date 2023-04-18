@@ -1,6 +1,0 @@
-leaks Report Version: 4.0
-Process 93481: 20512 nodes malloced for 5161 KB
-Process 93481: 1 leak for 48 total leaked bytes.
-
-    1 (48 bytes) ROOT LEAK: <CFString 0x12411f930> [48]
-
