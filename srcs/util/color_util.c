@@ -6,16 +6,16 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 11:28:38 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/11 09:44:25 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 15:06:04 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "color.h"
 #include <math.h>
-//色系
+
 t_fcolor	rgb_init(int r, int g, int b)
 {
-	t_fcolor ret;
+	t_fcolor	ret;
 
 	ret.red = r;
 	ret.green = g;
@@ -23,8 +23,15 @@ t_fcolor	rgb_init(int r, int g, int b)
 	return (ret);
 }
 
-int	rgb_to_int(int r, int g, int b)//rgbを16進数のやつに変化(R, G, B) = (255, 0, 0)ならば0xFF0000(256*256*255 + 256 * 0 + 0)へ
+int	rgb_to_int(t_fcolor color)
 {
+	int	r;
+	int	g;
+	int	b;
+
+	r = (int)color.red;
+	g = (int)color.green;
+	b = (int)color.blue;
 	return ((int)(r * pow(256, 2) + g * pow(256, 1) + b));
 }
 

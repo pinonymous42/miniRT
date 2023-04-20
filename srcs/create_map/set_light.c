@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:06 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 14:59:59 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/20 14:51:30 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	set_light(char **argv, t_rt *rt)
 {
 	if (rt->light)
 		return (L_DUP_ERR);
-	if (!argv || !argv[0] || !argv[1] || !argv[2])
-		return (L_FEW_ELEM_ERR);
+	if (!argv || !argv[0] || !argv[1] || !argv[2] || argv[3])
+		return (L_DIF_ELEM_ERR);
 	rt->light = (t_light *)malloc(sizeof(t_light));
 	if (!rt->light)
 		return (MALLOC_ERR);

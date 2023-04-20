@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kohmatsu <kohmatsu@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: tasano <tasano@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 15:38:14 by asanotomoki       #+#    #+#              #
-#    Updated: 2023/04/15 20:00:57 by kohmatsu         ###   ########.fr        #
+#    Updated: 2023/04/18 22:28:17 by tasano           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ OBJ_DIR		:=	./obj
 SRC_DIR		:=	./srcs
 CC			:=	cc
 CFLAGS		:=	-Wall -Werror -Wextra
-#CFLAGS  	+=  -fsanitize=address -g
+CFLAGS  	+=  -fsanitize=address -g
 
 HEADERS		:=  ./includes
 
@@ -35,16 +35,23 @@ SOURCES :=	main.c
 SRC_FILE := create_map.c \
 			set_ambient.c set_camera.c  set_light.c \
 			set_sphere.c set_plane.c set_cylinder.c set_object_list.c \
-			set_vec.c set_color.c 
+			set_vec.c set_color.c
 SOURCES += $(addprefix create_map/, $(SRC_FILE))
 
+#draw
+SRC_FILE := draw.c \
+			get_dir_vec.c \
+			get_t_val.c get_t_util_cylinder.c get_t_util_condition.c\
+			diffusion.c  get_pixcel_color.c shadow.c specular.c \
+			get_min.c \
+			determin_normal_vec.c \
+			get_vec.c
+SOURCES += $(addprefix draw/, $(SRC_FILE))
+
 #util 
-SRC_FILE := color_util.c material_util.c mlx_util.c vec_util.c free_util.c delete_rt.c
+SRC_FILE := color_util.c mlx_util.c vec_util.c vec_util2.c free_util.c delete_rt.c
 SOURCES += $(addprefix util/, $(SRC_FILE))
 
-SRC_FILE := comb_v2.c get_t_val.c determin_normal_vec.c
-# SRC_FILE := comv_v0.c
-SOURCES += $(addprefix refactoring_code/, $(SRC_FILE))
 OBJECTS	:= $(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
 RM := rm -f
 #Message
@@ -59,7 +66,7 @@ FCLEAN_MSG	:=	"$(RED) Delete $(NAME)$(DEFAULT)"
 .PHONY: all fclean clean re libft
 
 $(NAME):   $(LIBFT) $(LIBMLX) $(OBJECTS)
-	$(CC) $(CFLAGS) -o $(NAME) $(LIBFT) $(LIBMLX) $(LXFLAGS) $(OBJECTS)
+	@$(CC) $(CFLAGS) -o $(NAME) $(LIBFT) $(LIBMLX) $(LXFLAGS) $(OBJECTS)
 	@echo $(NAME_MSG)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
@@ -90,6 +97,4 @@ re: fclean all
 
 norm:
 	norminette -v
-	norminette $(SRC_DIR)
-	norminette $(LIBFT_DIR)
-	norminette $(includes)
+	norminette $(SRC_DIR) $(LIBFT_DIR) ./includes | grep "Error"

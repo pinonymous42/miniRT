@@ -6,19 +6,21 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 14:22:16 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/09 16:14:01 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 19:58:09 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATERIAL_H
-#define MATERIAL_H
+# define MATERIAL_H
 
-typedef struct     s_material {
-    double        kDif;      // 拡散反射係数  // これを物体の色とする
-    double        kSpe;      // 鏡面反射係数
-    float          shininess; // 光沢度
-} t_material;
+# define KDIF        0.69
+# define KSPE        0.3
+# define SHININESS   8
 
-t_material		material_init(double kDif, double kSpe, double shininess);
+typedef struct s_material_val
+{
+	double	diffusion;
+	double	speclar;
+}	t_material_val;
 
 #endif

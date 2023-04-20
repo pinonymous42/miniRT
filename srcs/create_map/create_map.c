@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:37:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 18:49:01 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/18 15:05:41 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	set_element(char **elements, t_rt *rt)
 	else if (ft_strncmp("cy", elements[0], 2) == 0)
 		return (set_cylinder(rt, ++elements));
 	else
-		return (NON_C_ERR);
+		return (NON_ELEM_ERR);
 	return (0);
 }
 
@@ -51,6 +51,8 @@ static int	check_none_elem(t_rt *rt)
 		return (C_NONE_ERR);
 	if (!rt->light)
 		return (L_NONE_ERR);
+	if (!rt->objects)
+		return (OBJECT_NONE_ERR);
 	return (0);
 }
 
@@ -76,7 +78,7 @@ static int	parse_map(int fd, t_rt *rt)
 		free_args(elements);
 	}
 	if (status == 0)
-		status = check_none_elem(rt); 
+		status = check_none_elem(rt);
 	return (status);
 }
 
