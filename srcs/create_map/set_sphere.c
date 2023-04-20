@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:50:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 16:53:46 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/20 14:51:08 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	set_sphere(t_rt *rt, char **argv)
 	t_sphere	*sphere;
 	int			status;
 
-	if (!argv || !argv[0] || !argv[1] || !argv[2])
-		return (MALLOC_ERR);
+	if (!argv || !argv[0] || !argv[1] || !argv[2] || argv[3])
+		return (SP_DIF_ELEM_ERR);
 	sphere = (t_sphere *)malloc(sizeof(t_sphere));
 	if (!sphere)
 		return (MALLOC_ERR);

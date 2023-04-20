@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:52:49 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/18 22:26:32 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/20 14:51:15 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	set_plane(t_rt *rt, char **argv)
 	t_plane	*plane;
 	int		status;
 
-	if (!argv || !argv[0] || !argv[1] || !argv[2])
-		return (MALLOC_ERR);
+	if (!argv || !argv[0] || !argv[1] || !argv[2] || argv[3])
+		return (PL_DIF_ELEM_ERR);
 	plane = (t_plane *)malloc(sizeof(t_plane));
 	if (!plane)
 		return (MALLOC_ERR);

@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:41:10 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/18 22:26:41 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/20 14:51:57 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	set_camera(char **argv, t_rt *rt)
 {
 	if (rt->camera)
 		return (C_DUP_ERR);
-	if (!argv || !argv[0] || !argv[1] || !argv[2])
-		return (C_FEW_ELEM_ERR);
+	if (!argv || !argv[0] || !argv[1] || !argv[2] || argv[3])
+		return (C_DIF_ELEM_ERR);
 	rt->camera = (t_camera *)malloc(sizeof(t_camera));
 	if (!rt->camera)
 		return (MALLOC_ERR);

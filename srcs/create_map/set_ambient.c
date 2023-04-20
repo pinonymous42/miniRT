@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:40:44 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/15 17:23:47 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/20 14:52:04 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	set_ambient(char **argv, t_rt *rt)
 {
 	if (rt->ambient)
 		return (A_DUP_ERR);
-	if (!argv || !argv[0] || !argv[1])
-		return (A_FEW_ELEM_ERR);
+	if (!argv || !argv[0] || !argv[1] || argv[2])
+		return (A_DIF_ELEM_ERR);
 	rt->ambient = (t_ambient *)malloc(sizeof(t_ambient));
 	if (!rt->ambient)
 		return (MALLOC_ERR);
