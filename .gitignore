@@ -2,3 +2,5 @@ lib/*/*.a
 obj
 miniRT
 vscode
+.DS_Store
+.gitignore
