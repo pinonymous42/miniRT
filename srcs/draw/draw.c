@@ -6,11 +6,10 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 14:45:57 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/20 14:50:02 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/21 14:13:56 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "miniRT.h"
 #include "mlx.h"
 #include "mlx_info.h"

@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:50:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/20 14:51:08 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/21 14:44:58 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	set_sphere(t_rt *rt, char **argv)
 	if (!sphere)
 		return (MALLOC_ERR);
 	sphere->center = set_vec3(argv[0]);
-	sphere->diameter = atof(argv[1]);
+	sphere->diameter = ft_atof(argv[1]);
 	sphere->color = set_color(argv[2]);
 	status = check_sphere(argv, sphere);
 	if (status)

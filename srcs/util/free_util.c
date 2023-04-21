@@ -6,11 +6,10 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:10:36 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/18 15:10:02 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/21 14:13:08 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 
 void	free_args(char **args)

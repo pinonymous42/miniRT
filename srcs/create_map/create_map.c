@@ -6,7 +6,7 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:37:26 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/18 15:05:41 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/21 14:36:22 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static void	put_cratemap_err(int status)
 
 static int	set_element(char **elements, t_rt *rt)
 {
+	if (!elements[0])
+		return (0);
 	if (ft_strncmp("A", elements[0], 2) == 0)
 		return (set_ambient(++elements, rt));
 	else if (ft_strncmp("L", elements[0], 2) == 0)
@@ -69,7 +71,10 @@ static int	parse_map(int fd, t_rt *rt)
 		if (!line)
 			break ;
 		if (*line && *line == '\n')
+		{
+			free (line);
 			continue ;
+		}
 		elements = ft_split_space(line);
 		free(line);
 		if (!elements)

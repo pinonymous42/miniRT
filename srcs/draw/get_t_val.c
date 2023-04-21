@@ -6,14 +6,13 @@
 /*   By: tasano <tasano@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 16:27:27 by tasano            #+#    #+#             */
-/*   Updated: 2023/04/18 23:39:34 by tasano           ###   ########.fr       */
+/*   Updated: 2023/04/21 14:13:34 by tasano           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_t_val.h"
 #include "libft.h"
 #include <math.h>
-#include <stdio.h>
 
 double	get_t_val_plane(t_plane *plane, t_vec3 start, t_vec3 dir)
 {
